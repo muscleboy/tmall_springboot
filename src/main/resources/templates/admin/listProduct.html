@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!--include admin/user.html文件下的 fragment(resources)片段-->
+<head th:include="admin/resources.html :: resources">
+</head>
+<body>
+
+<div class="container">
+	
+	<div class="table-responsive" th:fragment="productTable(${page})">
+		<table class="table table-bordered table-striped">
+			<thead>
+			<tr class="bg-info">
+				<th>id</th>
+				<th>产品</th>
+				<th>原价</th>
+				<th>促销价</th>
+				<th>库存</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr th:each="p : ${ps}">
+				<td th:text="${p.id}"></td>
+				<td th:text="${p.name}"></td>
+				<td th:text="${p.originalPrice}"></td>
+				<td th:text="${p.promotePrice}"></td>
+				<td th:text="${p.stock}"></td>
+			</tr>
+			</tbody>
+		</table>
+		<div th:fragment="pagination" class="paginationDiv">
+			<p aria-label="Page navigation">
+				<div>
+					当前第 <span th:text="${page.pageNum}"></span>页，总共
+					<span th:text="${page.total}"></span>页
+				</div>
+				<ul class="pagination">
+					<li >
+						<a href="#" aria-label="Next">
+							<span aria-hidden="true">&laquo;</span>
+						</a>
+					</li>
+					<th:block th:each="p : ${page.navigatepageNums}" >
+						<li  th:class="${p == page.pageNum}?'active':''" >
+							<a th:href="@{'admin_product_table?pageNum=' + ${p}}"
+							   th:text="${p}">
+							</a>
+						</li>
+					</th:block>
+					<li class="disabled">
+						<a href="#" aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+					</li>
+				</ul>
+			</p>
+		</div>
+	</div>
+	
+</div>
+
+</body>
+</html>

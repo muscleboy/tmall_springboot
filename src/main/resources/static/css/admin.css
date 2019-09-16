@@ -1,0 +1,33 @@
+
+div.formDiv{
+
+    margin-top: 200px;
+}
+
+body.bgImage{
+
+    background: url("../images/site/bg.jpg") no-repeat;
+    background-size: cover;
+}
+
+div.marginTop{
+
+    margin-top: 50px;
+}
+
+h1.noMargin{
+
+    margin-top: 0;
+}
+
+div.marginTop ul li>a{
+
+    color: black;
+    text-align: center;
+}
+
+div.m-container{
+
+    width: 1400px;
+    margin: 0 auto;
+}

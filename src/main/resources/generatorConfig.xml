@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <properties resource="application.properties"/>
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+
+        <!-- 取消注释-->
+        <commentGenerator type="org.mybatis.generator.internal.DefaultCommentGenerator">
+            <property name="suppressDate" value="true" />
+            <property name="suppressAllComments" value="true" />
+        </commentGenerator>
+
+        <jdbcConnection driverClass="${spring.datasource.driver-class-name}"
+                        connectionURL="${spring.datasource.url}"
+                        userId="${spring.datasource.username}"
+                        password="${spring.datasource.password}">
+            <!--解决与数据库表列名不匹配-->
+            <property name="nullCatalogMeansCurrent" value="true"/>
+        </jdbcConnection>
+
+        <!--生成pojo类存放位置-->
+        <javaModelGenerator targetPackage="xyz.bugcoder.bean" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!--生成xml映射文件存放位置-->
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <!--生成mapper类存放位置-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="xyz.bugcoder.mapper"
+                             targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <table tableName="admin" domainObjectName="Admin" >
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="category" domainObjectName="Category" >
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="order_" domainObjectName="Order" >
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="orderitem" domainObjectName="OrderItem" >
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="product" domainObjectName="Product" >
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="productimage" domainObjectName="ProductImage" >
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="property" domainObjectName="Property" >
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="propertyvalue" domainObjectName="PropertyValue" >
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="review" domainObjectName="Review" >
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="user" domainObjectName="User" >
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+
+    </context>
+</generatorConfiguration>
