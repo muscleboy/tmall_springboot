@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:include="admin/resources.html :: resources">
+</head>
+<body>
+
+<div th:replace="admin/admin.html :: navbar"></div>
+
+<div class="m-container">
+	<div class="control-label">
+		<span class="label label-success">分类管理</span>
+	</div>
+	<br>
+	<ol class="breadcrumb">
+		<li><a href="admin_category_list">分类管理</a></li>
+		<li><a href="admin_property_list">属性管理</a></li>
+		<!--<li class="active">Data</li>-->
+	</ol>
+	<div class="propertyDiv" id="propertyDiv">
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>属性名称</th>
+					<th>编辑</th>
+					<th>删除</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="p in properties">
+					<td>{{p.id}}</td>
+					<td>{{p.name}}</td>
+					<td>
+						<a :href="'admin_property_edit?ptid=' + p.id">
+							<span class="glyphicon glyphicon-pencil"></span>
+						</a>
+					</td>
+					<td>
+						<a :href="'admin_property_delete?ptid=' + p.id">
+							<span class="glyphicon glyphicon-trash"></span>
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<script type="text/javascript">
+	
+	// "cid"才能获取得到
+	var cid = getUrlParam("cid");
+	
+	var data4Vue = {
+		
+	    url: "properties?cid=",
+        properties: []
+	};
+	
+	var vue = new Vue({
+		
+		el: "#propertyDiv",
+		data: data4Vue,
+		mounted: function () {
+			this.list();
+        },
+		methods: {
+		    
+		    list: function () {
+				
+		        var url = this.url + cid;
+		        axios.get(url).then(function (response) {
+					
+		            vue.properties = response.data;
+                })
+            }
+		}
+	})
+	
+</script>
+
+</body>
+</html>

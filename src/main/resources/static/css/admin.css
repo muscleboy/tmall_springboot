@@ -31,3 +31,15 @@ div.m-container{
     width: 1400px;
     margin: 0 auto;
 }
+
+div.editPropertyDiv{
+
+    width: 400px;
+    height: 300px;
+    margin: 0 auto;
+}
+
+div.submitBtn{
+
+    margin-left: 170px;
+}

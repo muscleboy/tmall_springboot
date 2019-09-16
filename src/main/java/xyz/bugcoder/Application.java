@@ -7,10 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 // 添加MapperScan注解，就不需要一个一个mapper的添加mapper注解
 @MapperScan("xyz.bugcoder.mapper")
 @SpringBootApplication
-public class SpringbootMybatisApplication {
+public class Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringbootMybatisApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 
 }

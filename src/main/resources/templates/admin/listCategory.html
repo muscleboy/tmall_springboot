@@ -4,11 +4,13 @@
 </head>
 <body>
 
+<div th:replace="admin/admin.html :: navbar"></div>
+
 <th:block th:replace="admin/admin.html :: navbar">
 
 </th:block>
 
-<div class="m-container" id="category">
+<div class="m-container" id="categoryDiv">
 	<div class="control-label">
 		<span class="label label-success">分类管理</span>
 	</div>
@@ -34,15 +36,30 @@
 			<tbody>
 				<tr v-for="bean in beans">
 					<td>{{bean.id}}</td>
+					<td><img height="200px" width="900"  :src="'images/category/'+bean.id+'.jpg'"> </td>
 					<td>{{bean.name}}</td>
-					<!--<td th:text="{bean.id}" width="100"></td>-->
-					<!--&lt;!&ndash;<td><img th:src="@{/images/site/bg.jpg}" width="900" height="200"> </td>&ndash;&gt;-->
-					<!--<td><img th:src="@{/images/category/{f}(f=${c.id} + '.jpg')"  width="900" height="200"> </td>-->
-					<!--<td th:text="${bean.name}"></td>-->
-					<!--<td> <span class="glyphicon glyphicon-th-list"></span> </td>-->
-					<!--<td> <span class="glyphicon glyphicon-shopping-cart"></span> </td>-->
-					<!--<td> <span class="glyphicon glyphicon-pencil"></span> </td>-->
-					<!--<td> <span class="glyphicon glyphicon-trash"></span> </td>-->
+					<td>
+						<!--bean.id-->
+						<a :href="'admin_property_list?cid=' + bean.id">
+							<span class="glyphicon glyphicon-th-list"></span>
+						</a>
+					</td>
+					<td>
+						<a :href="'admin_product_list?cid=' + bean.id">
+							<span class="glyphicon glyphicon-shopping-cart"></span>
+						</a>
+					</td>
+					<td>
+						<a :href="'admin_category_edit?cid=' + bean.id">
+							<span class="glyphicon glyphicon-pencil">
+						</span>
+						</a>
+					</td>
+					<td>
+						<a :href="'admin_category_delete?cid=' + bean.id">
+							<span class="glyphicon glyphicon-trash"></span>
+						</a>
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -61,7 +78,7 @@
 
 		var vue = new Vue({
 
-			el: "#category",
+			el: "#categoryDiv",
 			data: data4Vue,
 			mounted: function () {
 				this.list()

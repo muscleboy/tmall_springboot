@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+>
+<head th:include="admin/resources.html :: resources">
+</head>
+<body>
+
+<div th:replace="admin/admin.html :: navbar"></div>
+
+<div class="m-container" id="editPropertyDiv">
+	<div class="control-label">
+		<span class="label label-success">分类管理</span>
+	</div>
+	<br>
+	<ol class="breadcrumb">
+		<li><a href="admin_category_list">分类管理</a></li>
+		<li><a href="admin_property_list">属性管理</a></li>
+		<li class="active">编辑属性</li>
+	</ol>
+	<div class="editPropertyDiv">
+		<!--<form action="admin_property_update" method="get">-->
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					编辑属性
+				</div>
+				<div class="panel-body">
+					<!--获取对象的值，v-model-->
+					属性名称：<input type="text" v-model="value.name" class="form-control">
+				</div>
+				<div class="submitBtn">
+					<button type="submit" @click="update" class="btn btn-success">提交</button>
+				</div>
+			</div>
+		<!--</form>-->
+	</div>
+</div>
+
+<script type="text/javascript">
+	
+	var data4Vue = {
+	    
+	    value: ""
+	};
+	
+	var vue = new Vue({
+		
+		el: "#editPropertyDiv",
+		data: data4Vue,
+		mounted: function(){
+		    
+		    this.get();
+		},
+		methods: {
+		    
+		    get: function () {
+
+                var ptid = getUrlParam("ptid");
+                var url = "properties/" + ptid;
+		        axios.get(url).then(function (response) {
+					
+		            vue.value = response.data;
+                })
+            },
+			update: function () {
+
+		        // 获取输入框的值
+		        var input = $("input[class='form-control']").val();
+				if (input == "") {
+
+				    alert("属性名称不能为空!")
+				}else{
+
+		  
+				}
+            }
+		}
+	})
+
+</script>
+
+</body>
+</html>
