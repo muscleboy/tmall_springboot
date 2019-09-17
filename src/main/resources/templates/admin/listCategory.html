@@ -65,7 +65,8 @@
 					<a href="#" :class="{disabled: pagination.pageNum==1}" @click="jump('first')">&laquo;</a>
 				</li>
 				<li>
-					<a href="#" :class="{disabled: pagination.pageNum==i}" v-for="i in pagination.navigatepageNums" @click="jump(i)">{{i}}</a>
+					<a href="#" :class="{disabled: pagination.pageNum==i}" v-for="i in pagination.navigatepageNums"
+					   @click="jumpByNumber(i)">{{i}}</a>
 				</li>
 				<li>
 					<a href="#" :class="{disabled: pagination.pageNum==pagination.pages}" @click="jump('last')">&raquo;</a>
@@ -91,6 +92,7 @@
 			el: "#categoryDiv",
 			data: data4Vue,
 			mounted: function () {
+			 
 				this.list(0)
 			},
 			methods: {

@@ -111,7 +111,7 @@
                     var url = this.url;
                     axios.post(url, this.property).then(function (response) {
 
-                        vue.list(0);
+                        vue.list(1);
                         vue.property = {id:0, name:"", cid:0};
                     })
 				}
@@ -121,7 +121,7 @@
                 var url = this.url + "/" + id;
                 axios.delete(url).then(function (response) {
 					
-                    vue.list(0);
+                    vue.list(1);
                 })
             },
 			jump: function (page) {

@@ -33,7 +33,7 @@ public class PropertyController {
 
     @GetMapping("/categories/{cid}/properties")
     public PageInfo<Property> pageList(@PathVariable("cid") int cid,
-                                       @RequestParam(value = "start", defaultValue = "1") int start,
+                                       @RequestParam(value = "start", defaultValue = "0") int start,
                                        @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
 
         start = start<0?0:start;
