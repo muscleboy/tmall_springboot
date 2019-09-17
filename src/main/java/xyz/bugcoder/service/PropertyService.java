@@ -1,5 +1,6 @@
 package xyz.bugcoder.service;
 
+import com.github.pagehelper.PageInfo;
 import xyz.bugcoder.bean.Property;
 
 import java.util.List;
@@ -20,5 +21,5 @@ public interface PropertyService {
     Property get(int id);
     List<Property> list();
     List<Property> listByCid(int cid);
-
+    PageInfo<Property> pageList(int cid, int start, int size, int navigatePage);
 }

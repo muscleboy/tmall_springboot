@@ -25,9 +25,10 @@
 				</div>
 				<div class="panel-body">
 					<!--获取对象的值，v-model-->
-					属性名称：<input type="text" v-model="value.name" class="form-control">
+					属性名称：<input type="text" v-model="bean.name" class="form-control">
 				</div>
 				<div class="submitBtn">
+					<input type="hidden" name="id" v-model="bean.id">
 					<button type="submit" @click="update" class="btn btn-success">提交</button>
 				</div>
 			</div>
@@ -36,10 +37,11 @@
 </div>
 
 <script type="text/javascript">
-	
+
 	var data4Vue = {
-	    
-	    value: ""
+
+		bean: "",
+		category: ""
 	};
 	
 	var vue = new Vue({
@@ -54,11 +56,15 @@
 		    
 		    get: function () {
 
+		    	var cid = getUrlParam("cid");
+		    	// vue.cid = cid;
+				// alert(cid);
                 var ptid = getUrlParam("ptid");
                 var url = "properties/" + ptid;
 		        axios.get(url).then(function (response) {
 					
-		            vue.value = response.data;
+		            vue.bean = response.data;
+		            vue.category = vue.bean.category;
                 })
             },
 			update: function () {
@@ -67,10 +73,16 @@
 		        var input = $("input[class='form-control']").val();
 				if (input == "") {
 
-				    alert("属性名称不能为空!")
+				    alert("属性名称不能为空!");
+					return false;
 				}else{
 
-		  
+					var url = "properties";
+					axios.put(url, vue.bean).then(function (response) {
+						// 更新完成跳转到上一页
+						// alert(response.data.cid);
+						location.href = "admin_property_list?cid=" + response.data.cid;
+					})
 				}
             }
 		}

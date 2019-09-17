@@ -1,10 +1,14 @@
 package xyz.bugcoder.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import xyz.bugcoder.bean.Category;
 import xyz.bugcoder.bean.Property;
 import xyz.bugcoder.bean.PropertyExample;
 import xyz.bugcoder.mapper.PropertyMapper;
+import xyz.bugcoder.service.CategoryService;
 import xyz.bugcoder.service.PropertyService;
 
 import java.util.List;
@@ -22,6 +26,8 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Autowired
     PropertyMapper propertyMapper;
+    @Autowired
+    CategoryService categoryService;
 
     @Override
     public void add(Property p) {
@@ -63,5 +69,16 @@ public class PropertyServiceImpl implements PropertyService {
                 .andCidEqualTo(cid);
         example.setOrderByClause("id desc");
         return propertyMapper.selectByExample(example);
+    }
+
+    @Override
+    public PageInfo<Property> pageList(int cid, int start, int size, int navigatePage) {
+
+        Category c = categoryService.get(cid);
+        List<Property> pts = listByCid(cid);
+        PageHelper.offsetPage(start, size, "id desc");
+        PageInfo<Property> page = new PageInfo<>(pts, navigatePage);
+
+        return page;
     }
 }
