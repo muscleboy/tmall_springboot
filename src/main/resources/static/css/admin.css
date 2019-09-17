@@ -39,6 +39,12 @@ div.editPropertyDiv{
     margin: 0 auto;
 }
 
+div.paginationDiv{
+
+    width: 230px;
+    margin: 0 auto;
+}
+
 div.submitBtn{
 
     margin-left: 170px;

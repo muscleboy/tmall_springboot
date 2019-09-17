@@ -56,9 +56,6 @@
 		    
 		    get: function () {
 
-		    	var cid = getUrlParam("cid");
-		    	// vue.cid = cid;
-				// alert(cid);
                 var ptid = getUrlParam("ptid");
                 var url = "properties/" + ptid;
 		        axios.get(url).then(function (response) {
@@ -79,8 +76,7 @@
 
 					var url = "properties";
 					axios.put(url, vue.bean).then(function (response) {
-						// 更新完成跳转到上一页
-						// alert(response.data.cid);
+					 
 						location.href = "admin_property_list?cid=" + response.data.cid;
 					})
 				}

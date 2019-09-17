@@ -1,7 +1,10 @@
 package xyz.bugcoder.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.bugcoder.bean.Category;
 import xyz.bugcoder.service.CategoryService;
@@ -23,9 +26,15 @@ public class CategoryController {
     CategoryService categoryService;
 
     @GetMapping("/categories")
-    public List<Category> listCategory(){
+    public PageInfo<Category> listCategory(@RequestParam(value = "start", defaultValue = "0") int start,
+                                           @RequestParam(value = "size", defaultValue = "5") int size
+                                       ){
 
-        return categoryService.list();
+        start = start < 0 ? 0 : start;
+        PageHelper.startPage(start, size, "id desc");
+        List<Category> cs = categoryService.list();
+        PageInfo<Category> page = new PageInfo<>(cs, 5);
+        return page;
     }
 
 }

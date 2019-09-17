@@ -8,3 +8,13 @@ function getUrlParam(param) {
         return unescape(result[2]);
     return null;
 }
+
+function checkEmpty(id, info) {
+
+    var input = $("#id").val();
+    if (input == ""){
+
+        alert(info + "不能为空");
+        return false;
+    }
+}

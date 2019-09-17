@@ -12,8 +12,8 @@
 	</div>
 	<br>
 	<ol class="breadcrumb">
-		<li><a href="admin_category_list">分类管理</a></li>
-		<li><a href="admin_property_list">属性管理</a></li>
+		<li><a href="admin_category_list">所有分类</a></li>
+		<li><a href="'admin_property_list?cid=' + property.cid">属性管理</a></li>
 		<!--<li class="active">Data</li>-->
 	</ol>
 	<div class="propertyDiv" id="propertyDiv">
@@ -31,51 +31,117 @@
 					<td>{{p.id}}</td>
 					<td>{{p.name}}</td>
 					<td>
-						<a :href="'admin_property_edit?ptid=' + p.id">
+						<a href="#">
 							<span class="glyphicon glyphicon-pencil"></span>
 						</a>
 					</td>
 					<td>
-						<a :href="'admin_property_delete?ptid=' + p.id">
+						<a href="#" @click="deleteProperty(p.id)">
 							<span class="glyphicon glyphicon-trash"></span>
 						</a>
 					</td>
 				</tr>
 			</tbody>
 		</table>
+		<th:block th:replace="admin/listCategory.html :: pagination">
+		
+		</th:block>
+		<div class="editPropertyDiv">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					新增属性
+				</div>
+				<div class="panel-body">
+					<!--获取对象的值，v-model-->
+					属性名称：<input type="text" id="input" v-model="property.name" class="form-control">
+				</div>
+				<div class="submitBtn">
+					<input type="hidden" name="id" v-model="property.id">
+					<button type="submit" @click="add" class="btn btn-success">添加</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
 <script type="text/javascript">
-	
-	// "cid"才能获取得到
-	var cid = getUrlParam("cid");
-	
-	var data4Vue = {
-		
-	    url: "properties?cid=",
-        properties: []
-	};
-	
-	var vue = new Vue({
-		
-		el: "#propertyDiv",
-		data: data4Vue,
-		mounted: function () {
-			this.list();
+
+    // "cid"才能获取得到
+    var cid = getUrlParam("cid");
+
+    var data4Vue = {
+
+        url: "properties",
+        properties: [],
+		property: {id:0, name:"", cid: cid},
+		pagination: {}
+    };
+
+    var vue = new Vue({
+
+        el: "#propertyDiv",
+        data: data4Vue,
+        mounted: function () {
+            
+            this.list(0);
         },
-		methods: {
-		    
-		    list: function () {
-				
-		        var url = this.url + cid;
-		        axios.get(url).then(function (response) {
-					
-		            vue.properties = response.data;
+        methods: {
+
+            // list: function () {
+			//
+            //     var url = this.url + "?cid=" + cid;
+            //     axios.get(url).then(function (response) {
+			//
+            //         vue.properties = response.data;
+            //     })
+            // },
+			list: function(start){
+			  
+			    var url = "categories/" + cid + "/" + this.url + "?start=" + start;
+			    axios.get(url).then(function (response) {
+
+                    vue.pagination = response.data;
+                    vue.properties = response.data.list;
                 })
+			},
+            add: function () {
+				
+			    if (!checkEmpty(input, "属性名称")) {
+
+                    var url = this.url;
+                    axios.post(url, this.property).then(function (response) {
+
+                        vue.list(0);
+                        vue.property = {id:0, name:"", cid:0};
+                    })
+				}
+            },
+			deleteProperty: function (id) {
+				
+                var url = this.url + "/" + id;
+                axios.delete(url).then(function (response) {
+					
+                    vue.list(0);
+                })
+            },
+			jump: function (page) {
+				
+			    if (page == "first" && 1 != vue.pagination.pageNum)
+			        vue.list(1);
+			    // else if (page == "pre" && vue.pagination.hasPreviousPage)
+			    //     vue.list(vue.pagination.prePage);
+			    // else if (page == "next" && vue.pagination.hasNextPage)
+			    //     vue.list(vue.pagination.nextPage);
+			    else if (page == "last" && vue.pagination.pages != vue.pagination.pageNum)
+					vue.list(vue.pagination.pages);
+            },
+			jumpByNum: function (num) {
+				
+			    if (num != vue.pagination.pageNum)
+			        vue.list(num);
             }
-		}
-	})
+        }
+    })
 	
 </script>
 

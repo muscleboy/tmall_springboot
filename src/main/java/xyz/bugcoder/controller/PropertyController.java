@@ -1,5 +1,6 @@
 package xyz.bugcoder.controller;
 
+import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,17 @@ public class PropertyController {
         return propertyService.listByCid(cid);
     }
 
+    @GetMapping("/categories/{cid}/properties")
+    public PageInfo<Property> pageList(@PathVariable("cid") int cid,
+                                       @RequestParam(value = "start", defaultValue = "1") int start,
+                                       @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
+
+        start = start<0?0:start;
+        PageInfo<Property> page = propertyService.pageList(cid, start, size, 5);
+
+        return page;
+    }
+
     @GetMapping("/properties/{ptid}")
     public Property get(@PathVariable(value = "ptid") int ptid){
 
@@ -41,6 +53,19 @@ public class PropertyController {
     public void update(@RequestBody Property p){
 
         propertyService.update(p);
+    }
+
+    @PostMapping("/properties")
+    public void add(@RequestBody Property p){
+
+        propertyService.add(p);
+    }
+
+    // 添加 PathVariable(路径变量)注解，而不是@Param
+    @DeleteMapping("/properties/{id}")
+    public void delete(@PathVariable(value = "id") int id){
+
+        propertyService.delete(id);
     }
 
 }
