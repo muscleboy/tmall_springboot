@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:include="admin/resources.html :: resources">
+<head th:replace="admin/resources.html :: resources">
 </head>
 <body>
 
 <div th:replace="admin/admin.html :: navbar"></div>
 
-<div class="m-container">
+<div class="m-container" id="orderDiv">
     <div class="control-label">
         <span class="label label-success">订单管理</span>
     </div>
     <br>
-    <div id="orderDiv">
+    <div>
         <table class="table table-bordered">
             <thead class="bg-info">
                 <tr>
@@ -24,18 +24,75 @@
                     <th>支付时间</th>
                     <th>发货时间</th>
                     <th>收货时间</th>
-                    <th>收货时间</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-
-                </tr>
+                <template v-for="o in orders">
+                    <tr>
+                        <td>{{o.id}}</td>
+                        <td>{{o.status}}</td>
+                        <td>￥3999</td>
+                        <td>3</td>
+                        <td>{{o.uid}}</td>
+                        <!--格式化时间-->
+                        <td>{{o.createDate | formatDate}}</td>
+                        <td>{{o.payDate | formatDate}}</td>
+                        <td>{{o.deliveryDate | formatDate}}</td>
+                        <td>{{o.confirmDate | formatDate}}</td>
+                        <td>
+                            <button type="button" class="btn btn-primary">查看详情</button>
+                            <button type="button" class="btn btn-primary">发货</button>
+                        </td>
+                    </tr>
+                </template>
             </tbody>
         </table>
     </div>
 </div>
+
+<script>
+    
+    var data4Vue = {
+        
+        url: "orders",
+        orders: [],
+        uid: [],
+    };
+    
+    var vue = new Vue({
+        
+        el: "#orderDiv",
+        data: data4Vue,
+        mounted: function () {
+            
+            this.list();
+        },
+        methods: {
+            
+            list: function () {
+                
+                var url = this.url;
+                axios.get(url).then(function (response) {
+                    
+                    vue.orders = response.data;
+                    vue.uid = vue.orders.uid;
+                    alert(vue.uid);
+                })
+            },
+        }
+        
+    });
+
+    // 格式化时间
+    Vue.filter('formatDate', function (value, formatString) {
+        if(null==value)
+            return "";
+        formatString = formatString || 'YYYY-MM-DD HH:mm:ss';
+        return moment(value).format(formatString);
+    });
+    
+</script>
 
 </body>
 </html>

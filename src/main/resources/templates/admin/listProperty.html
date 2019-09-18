@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head th:include="admin/resources.html :: resources">
 </head>
 <body>
@@ -33,6 +34,7 @@
 						<!--{{p.name}}-->
 						<!--获取自定义属性的值，:pid -->
 						<input type="text" v-model="p.name" @blur="update(p.id)" :pid="p.id">
+						<!--<span v-bind:class="{glyphicon-ok isActive}" class="glyphicon"></span>-->
 					</td>
 					<td>
 						<a href="#" @click="toFocus(p.id)">
@@ -78,8 +80,9 @@
         url: "properties",
         properties: [],
 		property: {id:0, name:"", cid: cid},
-		category: {id:0, name:""},
-		pagination: {}
+        category: {id:0, name:""},
+		pagination: {},
+		isActive: false
     };
 
     var vue = new Vue({
@@ -127,7 +130,8 @@
                     axios.post(url, this.property).then(function (response) {
 
                         vue.list(1);
-                        vue.property = {id:0, name:"", cid:0};
+                        // 设置cid，不然下次插入的有时无法插入，数据库的cid为0
+                        vue.property = {id:0, name:"", cid:cid};
                     })
 				}
             },
@@ -157,6 +161,7 @@
 				input.blur(axios.put(url, this.property).then(function () {
 
 					vue.list(1);
+					vue.isActive = true;
 				}));
 
 			},

@@ -14,6 +14,9 @@ import java.util.List;
  */
 public interface UserService {
 
+    // 删除，更改用户暂不提供
+    void add(User u);
+    User get(int id);
     List<User> list();
 
 }

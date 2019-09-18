@@ -25,6 +25,18 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
 
     @Override
+    public void add(User u) {
+
+        userMapper.insert(u);
+    }
+
+    @Override
+    public User get(int id) {
+
+        return userMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
     public List<User> list() {
 
         UserExample example = new UserExample();
