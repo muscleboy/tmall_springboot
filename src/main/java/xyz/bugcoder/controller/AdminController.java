@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import xyz.bugcoder.service.AdminService;
-import xyz.bugcoder.service.ProductService;
 
 import java.util.Map;
 
@@ -23,8 +22,6 @@ public class AdminController {
 
     @Autowired
     AdminService adminService;
-    @Autowired
-    ProductService productService;
 
     // 跳转到登录页面
     @RequestMapping("/admin")

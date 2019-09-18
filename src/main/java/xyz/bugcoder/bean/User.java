@@ -7,7 +7,7 @@ public class User {
 
     private String password;
 
-    private String salt;
+    private String email;
 
     public Integer getId() {
         return id;
@@ -33,11 +33,11 @@ public class User {
         this.password = password == null ? null : password.trim();
     }
 
-    public String getSalt() {
-        return salt;
+    public String getEmail() {
+        return email;
     }
 
-    public void setSalt(String salt) {
-        this.salt = salt == null ? null : salt.trim();
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
     }
 }

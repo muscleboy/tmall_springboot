@@ -24,10 +24,23 @@ public class AdminPageController {
         return "admin/listProperty";
     }
 
-    @RequestMapping("/admin_property_edit")
-    public String editProperty(){
+    @RequestMapping("/admin_user_list")
+    public String user(){
 
-        return "admin/editProperty";
+        return "admin/listUser";
     }
+
+    @RequestMapping("/admin_order_list")
+    public String order(){
+
+        return "admin/listOrder";
+    }
+
+    // 更新属性已通过ajax完成，这个方法就不需要了，editProperty.html也不需要了
+//    @RequestMapping("/admin_property_edit")
+//    public String editProperty(){
+//
+//        return "admin/editProperty";
+//    }
 
 }

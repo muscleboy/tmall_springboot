@@ -6,7 +6,62 @@
 
 <div th:replace="admin/admin.html :: navbar"></div>
 
-<div>用户管理页面</div>
+<div class="m-container" id="userDiv">
+    <div class="control-label">
+        <span class="label label-success">用户管理</span>
+    </div>
+    <br>
+    <div class="userDiv">
+        <table class="table table-bordered">
+            <thead class="bg-info">
+                <tr>
+                    <th>ID</th>
+                    <th>用户名</th>
+                    <th>密码</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="u in users">
+                    <td>{{u.id}}</td>
+                    <td>{{u.name}}</td>
+                    <td>{{u.password}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var data4Vue = {
+
+        url: "users",
+        users: []
+    };
+
+    var vue = new Vue({
+
+        el: "#userDiv",
+        data: data4Vue,
+        mounted: function () {
+
+            this.list();
+        },
+        methods: {
+
+            list: function () {
+
+                var url = this.url;
+                axios.get(url).then(function (response) {
+
+                    vue.users = response.data;
+                })
+            }
+        }
+
+    })
+
+</script>
 
 </body>
 </html>
