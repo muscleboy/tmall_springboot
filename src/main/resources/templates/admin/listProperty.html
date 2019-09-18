@@ -6,17 +6,17 @@
 
 <div th:replace="admin/admin.html :: navbar"></div>
 
-<div class="m-container">
+<div class="m-container" id="propertyDiv">
 	<div class="control-label">
 		<span class="label label-success">分类管理</span>
 	</div>
 	<br>
 	<ol class="breadcrumb">
 		<li><a href="admin_category_list">所有分类</a></li>
-		<li><a href="'admin_property_list?cid=' + property.cid">属性管理</a></li>
+		<li class="active">{{category.name}}</li>
 		<!--<li class="active">Data</li>-->
 	</ol>
-	<div class="propertyDiv" id="propertyDiv">
+	<div class="propertyDiv">
 		<table class="table table-bordered">
 			<thead>
 				<tr>
@@ -29,9 +29,13 @@
 			<tbody>
 				<tr v-for="p in properties">
 					<td>{{p.id}}</td>
-					<td>{{p.name}}</td>
 					<td>
-						<a href="#">
+						<!--{{p.name}}-->
+						<!--获取自定义属性的值，:pid -->
+						<input type="text" v-model="p.name" @blur="update(p.id)" :pid="p.id">
+					</td>
+					<td>
+						<a href="#" @click="toFocus(p.id)">
 							<span class="glyphicon glyphicon-pencil"></span>
 						</a>
 					</td>
@@ -43,9 +47,9 @@
 				</tr>
 			</tbody>
 		</table>
-		<th:block th:replace="admin/listCategory.html :: pagination">
-		
-		</th:block>
+		<!--<th:block th:replace="admin/listCategory.html :: pagination">-->
+		<!---->
+		<!--</th:block>-->
 		<div class="editPropertyDiv">
 			<div class="panel panel-info">
 				<div class="panel-heading">
@@ -74,6 +78,7 @@
         url: "properties",
         properties: [],
 		property: {id:0, name:"", cid: cid},
+		category: {id:0, name:""},
 		pagination: {}
     };
 
@@ -84,6 +89,7 @@
         mounted: function () {
             
             this.list(0);
+            this.getCategory(cid);
         },
         methods: {
 
@@ -95,6 +101,15 @@
             //         vue.properties = response.data;
             //     })
             // },
+			// 获取分类，用于面包屑名称
+			getCategory: function(cid){
+
+				var url = "categories/" + cid;
+				axios.get(url).then(function (response) {
+
+					vue.category = response.data;
+				})
+			},
 			list: function(start){
 			  
 			    var url = "categories/" + cid + "/" + this.url + "?start=" + start;
@@ -124,6 +139,27 @@
                     vue.list(1);
                 })
             },
+			toFocus: function(id){
+
+				var input = $("input[pid=" + id + "]").focus();
+			},
+			update: function(id){
+
+				var url = "/properties";
+				// 要用""拼接，''会出错
+				var input = $("input[pid=" + id + "]");
+				var value = input.val();
+
+				vue.property.id = id;
+				vue.property.name = value;
+				vue.property.cid = cid;
+
+				input.blur(axios.put(url, this.property).then(function () {
+
+					vue.list(1);
+				}));
+
+			},
 			jump: function (page) {
 				
 			    if (page == "first" && 1 != vue.pagination.pageNum)

@@ -4,7 +4,9 @@ import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import xyz.bugcoder.bean.Category;
 import xyz.bugcoder.bean.Property;
+import xyz.bugcoder.service.CategoryService;
 import xyz.bugcoder.service.PropertyService;
 
 import java.util.List;
@@ -22,6 +24,8 @@ public class PropertyController {
 
     @Autowired
     PropertyService propertyService;
+    @Autowired
+    CategoryService categoryService;
 
 
     // 一个分类(cid)的属性值显示
@@ -40,6 +44,12 @@ public class PropertyController {
         PageInfo<Property> page = propertyService.pageList(cid, start, size, 5);
 
         return page;
+    }
+
+    @GetMapping("/categories/{cid}")
+    public Category getCategory(@PathVariable(value = "cid") int cid){
+
+        return categoryService.get(cid);
     }
 
     @GetMapping("/properties/{ptid}")
