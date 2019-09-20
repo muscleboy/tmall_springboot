@@ -97,18 +97,13 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="xyz.bugcoder.bean.Property" >
-    insert into property (id, cid, name
-      )
-    values (#{id,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}
-      )
+  <insert id="insert" parameterType="xyz.bugcoder.bean.Property" useGeneratedKeys="true" keyProperty="id" >
+    insert into property (cid, name)
+    values (#{cid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="xyz.bugcoder.bean.Property" >
+  <insert id="insertSelective" parameterType="xyz.bugcoder.bean.Property" useGeneratedKeys="true" keyProperty="id" >
     insert into property
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
       <if test="cid != null" >
         cid,
       </if>
@@ -117,9 +112,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="cid != null" >
         #{cid,jdbcType=INTEGER},
       </if>

@@ -12,6 +12,7 @@ import xyz.bugcoder.service.ProductService;
 
 import java.util.List;
 
+
 /**
  * Create with IDEA.
  *
@@ -73,7 +74,7 @@ public class OrderItemServiceImpl implements OrderItemService {
 
         // 总价钱，总数量
         float total = 0;
-        float totalNum = 0;
+        int totalNum = 0;
         for (OrderItem oi : ois) {
 
             total += oi.getNumber() * oi.getProduct().getPromotePrice();
@@ -82,7 +83,7 @@ public class OrderItemServiceImpl implements OrderItemService {
         // 设置订单的总价钱，总数量，订单项
         o.setTotal(total);
         o.setTotalNum(totalNum);
-        o.setOrderItems(ois);
+        o.setOrderItemList(ois);
     }
 
     @Override

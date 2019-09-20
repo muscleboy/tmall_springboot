@@ -73,6 +73,22 @@
 				</li>
 			</ul>
 		</div>
+		<div class="editPropertyDiv">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					新增分类
+				</div>
+				<div class="panel-body">
+					<!--图片上传-->
+					<input type="hidden" name="id" v-model="category.id">
+					分类名称:<input  v-model="category.name" name="name" type="text" class="form-control">
+					<input id="categoryPic" accept="image/*" type="file" name="image" @change="getFile($event)" />
+				</div>
+				<div class="submitBtn">
+					<button type="submit" @click="add" class="btn btn-success">添加</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -84,7 +100,9 @@
 
 			url: "categories",
 			beans: [],
-			pagination: {}
+			pagination: {},
+			category: {id:0, name:""},
+			file: null
 		};
 
 		var vue = new Vue({
@@ -106,6 +124,38 @@
 						vue.beans = response.data.list;
 					})
 				},
+				add: function(){
+				
+				    if (!isEmpty(this.category.name, "分类名称"))
+				        return;
+                    if (!isEmpty(this.file, "分类图片"))
+                        return;
+					
+                    // alert(this.category.name);
+                    // alert(this.file);
+                    var url = this.url;
+                    var formData = new FormData();
+                    formData.append("name", this.category.name);
+                    formData.append("image", this.file);
+
+                    var config = {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    };
+
+
+                    axios.post(url, formData, config).then(function (response) {
+						
+                        vue.list(0);
+                        vue.category = {id:0, name:""};
+                        $("#categoryPic").val('');
+                        vue.file = null;
+					})
+                },
+                getFile: function (event) {
+                    this.file = event.target.files[0];
+                },
                 jump: function(page){
                     if('first'== page && 1!=vue.pagination.pageNum)
                         vue.list(1);

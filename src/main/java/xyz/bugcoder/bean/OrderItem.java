@@ -14,14 +14,6 @@ public class OrderItem {
     // 非数据库字段
     private Product product;
 
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
     @Override
     public String toString() {
         return "OrderItem{" +
@@ -32,6 +24,14 @@ public class OrderItem {
                 ", number=" + number +
                 ", product=" + product +
                 '}';
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public Integer getId() {

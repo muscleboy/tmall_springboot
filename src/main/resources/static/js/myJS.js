@@ -18,3 +18,12 @@ function checkEmpty(id, info) {
         return false;
     }
 }
+
+function isEmpty(value, info) {
+
+    if(null==value || value.length==0){
+        alert(info+ "不能为空");
+        return false;
+    }
+    return true;
+}

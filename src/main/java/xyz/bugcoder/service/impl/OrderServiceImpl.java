@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.bugcoder.bean.Order;
 import xyz.bugcoder.bean.OrderExample;
-import xyz.bugcoder.bean.OrderItem;
 import xyz.bugcoder.bean.User;
 import xyz.bugcoder.mapper.OrderMapper;
 import xyz.bugcoder.service.OrderItemService;

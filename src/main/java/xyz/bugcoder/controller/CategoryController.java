@@ -3,13 +3,14 @@ package xyz.bugcoder.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import xyz.bugcoder.bean.Category;
 import xyz.bugcoder.service.CategoryService;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -38,10 +39,23 @@ public class CategoryController {
         return page;
     }
 
-//    @GetMapping("/categories/{cid}")
-//    public Category getCategory(@PathVariable(value = "cid") int cid){
-//
-//        return categoryService.get(cid);
-//    }
+    @PostMapping("/categories")
+    public void add(Category c, MultipartFile image, HttpServletRequest request) throws IOException {
 
+        categoryService.add(c);
+        saveOrUpdateImageFile(c, image, request);
+    }
+
+    public void saveOrUpdateImageFile(Category c, MultipartFile image, HttpServletRequest request)
+            throws IOException {
+
+        System.out.println(c.getId());
+        System.out.println(c.getName());
+        File imageFolder= new File(request.getServletContext().getRealPath("images/category"));
+        File file = new File(imageFolder,c.getId() + ".jpg");
+        if(!file.getParentFile().exists())
+            file.getParentFile().mkdirs();
+        image.transferTo(file);
+
+    }
 }

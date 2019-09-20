@@ -1,7 +1,5 @@
 package xyz.bugcoder.bean;
 
-import xyz.bugcoder.service.OrderService;
-
 import java.util.Date;
 import java.util.List;
 
@@ -32,15 +30,16 @@ public class Order {
 
     private String status;
 
-    // 非数据库字段，业务需求
+    // 非数据库字段
     // 哪个用户的订单
     private User user;
-    // 该订单下的订单项
-    private List<OrderItem> orderItems;
-    // 该订单的总价钱
+    // 一个订单下多个订单项
+    private List<OrderItem> orderItemList;
+
+    // 一个订单的总价钱
     private float total;
-    // 该订单的总数量
-    private float totalNum;
+    // 一个订单的总数量
+    private int totalNum;
 
     @Override
     public String toString() {
@@ -59,26 +58,10 @@ public class Order {
                 ", uid=" + uid +
                 ", status='" + status + '\'' +
                 ", user=" + user +
-                ", orderItems=" + orderItems +
+                ", orderItemList=" + orderItemList +
                 ", total=" + total +
                 ", totalNum=" + totalNum +
                 '}';
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<OrderItem> getOrderItems() {
-        return orderItems;
-    }
-
-    public void setOrderItems(List<OrderItem> orderItems) {
-        this.orderItems = orderItems;
     }
 
     public float getTotal() {
@@ -89,12 +72,28 @@ public class Order {
         this.total = total;
     }
 
-    public float getTotalNum() {
+    public int getTotalNum() {
         return totalNum;
     }
 
-    public void setTotalNum(float totalNum) {
+    public void setTotalNum(int totalNum) {
         this.totalNum = totalNum;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<OrderItem> getOrderItemList() {
+        return orderItemList;
+    }
+
+    public void setOrderItemList(List<OrderItem> orderItemList) {
+        this.orderItemList = orderItemList;
     }
 
     public Integer getId() {
@@ -199,36 +198,5 @@ public class Order {
 
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
-    }
-
-    // 获取订单状态，并转换成中文
-    public String getStatusDesc(){
-
-        String desc = "未知";
-        switch (status){
-            case OrderService.waitPay:
-                desc = "待付款";
-                break;
-            case OrderService.waitDelivery:
-                desc = "待发货";
-                break;
-            case OrderService.waitConfirm:
-                desc = "待收货";
-                break;
-            case OrderService.waitReview:
-                desc = "待评价";
-                break;
-            case OrderService.finished:
-                desc = "完成";
-                break;
-            case OrderService.deleted:
-                desc = "删除";
-                break;
-            default:
-                desc = "未知";
-                break;
-        }
-
-        return desc;
     }
 }

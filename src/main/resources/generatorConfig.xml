@@ -37,36 +37,46 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <!--<table tableName="admin" domainObjectName="Admin" >-->
-            <!--<property name="useActualColumnNames" value="true"/>-->
-        <!--</table>-->
         <!--<table tableName="category" domainObjectName="Category" >-->
             <!--<property name="useActualColumnNames" value="true"/>-->
+            <!--<generatedKey column="id" sqlStatement="JDBC"/>-->
         <!--</table>-->
-        <!--<table tableName="order_" domainObjectName="Order" >-->
-            <!--<property name="useActualColumnNames" value="true"/>-->
-        <!--</table>-->
-        <!--<table tableName="orderitem" domainObjectName="OrderItem" >-->
-            <!--<property name="useActualColumnNames" value="true"/>-->
-        <!--</table>-->
-        <!--<table tableName="product" domainObjectName="Product" >-->
-            <!--<property name="useActualColumnNames" value="true"/>-->
-        <!--</table>-->
-        <!--<table tableName="productimage" domainObjectName="ProductImage" >-->
-            <!--<property name="useActualColumnNames" value="true"/>-->
-        <!--</table>-->
-        <!--<table tableName="property" domainObjectName="Property" >-->
-            <!--<property name="useActualColumnNames" value="true"/>-->
-        <!--</table>-->
-        <!--<table tableName="propertyvalue" domainObjectName="PropertyValue" >-->
-            <!--<property name="useActualColumnNames" value="true"/>-->
-        <!--</table>-->
-        <!--<table tableName="review" domainObjectName="Review" >-->
-            <!--<property name="useActualColumnNames" value="true"/>-->
-        <!--</table>-->
-        <!--<table tableName="user" domainObjectName="User" >-->
-            <!--<property name="useActualColumnNames" value="true"/>-->
-        <!--</table>-->
+        <table tableName="admin" domainObjectName="Admin" >
+            <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="order_" domainObjectName="Order" >
+            <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="orderitem" domainObjectName="OrderItem" >
+            <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="product" domainObjectName="Product" >
+            <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="productimage" domainObjectName="ProductImage" >
+            <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="property" domainObjectName="Property" >
+            <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="propertyvalue" domainObjectName="PropertyValue" >
+            <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="review" domainObjectName="Review" >
+            <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="user" domainObjectName="User" >
+            <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
 
     </context>
 </generatorConfiguration>

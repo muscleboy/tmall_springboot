@@ -5,7 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import xyz.bugcoder.bean.Category;
 import xyz.bugcoder.service.AdminService;
+import xyz.bugcoder.service.CategoryService;
 
 import java.util.Map;
 
@@ -22,6 +24,8 @@ public class AdminController {
 
     @Autowired
     AdminService adminService;
+    @Autowired
+    CategoryService categoryService;
 
     // 跳转到登录页面
     @RequestMapping("/admin")
@@ -38,6 +42,10 @@ public class AdminController {
                         ){
         Map<String, String> map = adminService.list2Map();
 
+        Category c = new Category();
+        c.setName("爱上杜甫");
+        categoryService.add(c);
+        System.out.println(c);
         // 登录成功
         if (map.get(adminUser) != null && map.get(adminUser).equals(adminPass)){
 

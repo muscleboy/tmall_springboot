@@ -21,23 +21,6 @@ public class Product {
 
     // 非数据库字段
     private Category category;
-    private ProductImage productImage;
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public ProductImage getProductImage() {
-        return productImage;
-    }
-
-    public void setProductImage(ProductImage productImage) {
-        this.productImage = productImage;
-    }
 
     @Override
     public String toString() {
@@ -51,8 +34,15 @@ public class Product {
                 ", cid=" + cid +
                 ", createDate=" + createDate +
                 ", category=" + category +
-                ", productImage=" + productImage +
                 '}';
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public Integer getId() {

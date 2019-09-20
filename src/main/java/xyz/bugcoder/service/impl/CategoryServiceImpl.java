@@ -4,12 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.bugcoder.bean.Category;
 import xyz.bugcoder.bean.CategoryExample;
-import xyz.bugcoder.bean.Product;
-import xyz.bugcoder.bean.ProductImage;
 import xyz.bugcoder.mapper.CategoryMapper;
-import xyz.bugcoder.mapper.ProductImageMapper;
-import xyz.bugcoder.mapper.ProductMapper;
 import xyz.bugcoder.service.CategoryService;
+
 
 import java.util.List;
 
@@ -26,10 +23,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     CategoryMapper categoryMapper;
-    @Autowired
-    ProductMapper productMapper;
-    @Autowired
-    ProductImageMapper productImageMapper;
 
     @Override
     public void add(Category c) {
@@ -54,8 +47,6 @@ public class CategoryServiceImpl implements CategoryService {
 
         return categoryMapper.selectByPrimaryKey(id);
     }
-
-    public void setProduct(Product p){}
 
     @Override
     public List<Category> list() {
