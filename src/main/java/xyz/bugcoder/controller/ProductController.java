@@ -1,10 +1,11 @@
 package xyz.bugcoder.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import xyz.bugcoder.bean.Product;
 import xyz.bugcoder.service.ProductService;
+
+import java.util.List;
 
 /**
  * Create with IDEA.
@@ -14,21 +15,22 @@ import xyz.bugcoder.service.ProductService;
  * @Date: 2019/9/14 09:46
  * @Author: Wyj
  */
-@Controller
+@RestController
 public class ProductController {
 
     @Autowired
     ProductService productService;
 
-    @RequestMapping("/admin_list_product")
-    public String listProduct(Model m){
+    @GetMapping("categories/{cid}/products")
+    public List<Product> listByCid(@PathVariable(value = "cid") int cid){
 
-//        PageHelper.startPage(0, 5,"id desc");
-//        List<Product> ps = productService.list();
-//        PageInfo<Product> page = new PageInfo<>(ps, 3);
-//        m.addAttribute("ps", ps);
-//        m.addAttribute("page", page);
-
-        return "admin/listProduct";
+        return productService.list(cid);
     }
+
+    @PostMapping("/products")
+    public void add(@RequestBody Product p){
+
+        productService.add(p);
+    }
+
 }

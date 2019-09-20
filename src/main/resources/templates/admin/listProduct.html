@@ -1,66 +1,154 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<!--include admin/user.html文件下的 fragment(resources)片段-->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head th:include="admin/resources.html :: resources">
 </head>
 <body>
 
-<div th:include="admin/admin.html :: navbar"></div>
-<div>订单管理页面</div>
+<div th:replace="admin/admin.html :: navbar"></div>
+<div class="m-container" id="listProduct">
+	<div class="control-label">
+		<span class="label label-success">产品管理</span>
+	</div>
+	<br>
+	<ol class="breadcrumb">
+		<li><a href="admin_category_list">所有分类</a></li>
+		<li><a href="admin_category_list">{{category.name}}</a></li>
+		<li class="active">产品管理</li>
+	</ol>
+	<div class="listProductDiv">
+		<div class="listProductTable">
+			<table class="table table-bordered">
+				<thead class="bg-info">
+					<tr>
+						<th>ID</th>
+						<th>图片</th>
+						<th>产品名称</th>
+						<th>产品小标题</th>
+						<th>原价</th>
+						<th>促销价</th>
+						<th>库存</th>
+						<th>图片管理</th>
+						<th>属性管理</th>
+						<th>编辑</th>
+						<th>删除</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="p in products">
+						<td>{{p.id}}</td>
+						<td>
+							<img height="200px" width="400"  :src="'images/productSingle/'+p.id+'.jpg'">
+						</td>
+						<td>{{p.name}}</td>
+						<td>{{p.subTitle}}</td>
+						<td>￥{{p.originalPrice}}</td>
+						<td>￥{{p.promotePrice}}</td>
+						<td>{{p.stock}}</td>
+						<td>
+							<a href="#" >
+								<span class="glyphicon glyphicon-picture"></span>
+							</a>
+						</td>
+						<td>
+							<a href="#" >
+								<span class="glyphicon glyphicon-th-list"></span>
+							</a>
+						</td>
+						<td>
+							<a href="#" >
+								<span class="glyphicon glyphicon-pencil"></span>
+							</a>
+						</td>
+						<td>
+							<a href="#" >
+								<span class="glyphicon glyphicon-trash"></span>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="editPropertyDiv">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					新增产品
+				</div>
+				<div class="panel-body">
+					<input type="hidden" name="id" v-model="product.id">
+					<!--name属性不影响，只是输入的时候没有历史记录-->
+					产品名称:<input name="name" v-model="product.name"  type="text" class="form-control">
+					<br>
+					产品小标题:<input name="subTitle" v-model="product.subTitle" type="text" class="form-control">
+					<br>
+					原价:<input  name="originalPrice" v-model="product.originalPrice" type="text" class="form-control">
+					<br>
+					促销价:<input  name="promotePrice" v-model="product.promotePrice" type="text" class="form-control">
+					<br>
+					库存:<input  name="stock" v-model="product.stock" type="text" class="form-control">
+				</div>
+				<div class="submitBtn">
+					<button type="submit" @click="add" class="btn btn-success">添加</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
-<!--<div class="container">-->
-	<!---->
-	<!--<div class="table-responsive" th:fragment="productTable(${page})">-->
-		<!--<table class="table table-bordered table-striped">-->
-			<!--<thead>-->
-			<!--<tr class="bg-info">-->
-				<!--<th>id</th>-->
-				<!--<th>产品</th>-->
-				<!--<th>原价</th>-->
-				<!--<th>促销价</th>-->
-				<!--<th>库存</th>-->
-			<!--</tr>-->
-			<!--</thead>-->
-			<!--<tbody>-->
-			<!--<tr th:each="p : ${ps}">-->
-				<!--<td th:text="${p.id}"></td>-->
-				<!--<td th:text="${p.name}"></td>-->
-				<!--<td th:text="${p.originalPrice}"></td>-->
-				<!--<td th:text="${p.promotePrice}"></td>-->
-				<!--<td th:text="${p.stock}"></td>-->
-			<!--</tr>-->
-			<!--</tbody>-->
-		<!--</table>-->
-		<!--<div th:fragment="pagination" class="paginationDiv">-->
-			<!--<p aria-label="Page navigation">-->
-				<!--<div>-->
-					<!--当前第 <span th:text="${page.pageNum}"></span>页，总共-->
-					<!--<span th:text="${page.total}"></span>页-->
-				<!--</div>-->
-				<!--<ul class="pagination">-->
-					<!--<li >-->
-						<!--<a href="#" aria-label="Next">-->
-							<!--<span aria-hidden="true">&laquo;</span>-->
-						<!--</a>-->
-					<!--</li>-->
-					<!--<th:block th:each="p : ${page.navigatepageNums}" >-->
-						<!--<li  th:class="${p == page.pageNum}?'active':''" >-->
-							<!--<a th:href="@{'admin_product_table?pageNum=' + ${p}}"-->
-							   <!--th:text="${p}">-->
-							<!--</a>-->
-						<!--</li>-->
-					<!--</th:block>-->
-					<!--<li class="disabled">-->
-						<!--<a href="#" aria-label="Next">-->
-							<!--<span aria-hidden="true">&raquo;</span>-->
-						<!--</a>-->
-					<!--</li>-->
-				<!--</ul>-->
-			<!--</p>-->
-		<!--</div>-->
-	<!--</div>-->
-	<!---->
-<!--</div>-->
+<script>
+	
+	var cid = getUrlParam("cid");
+	
+	var data4Vue = {
+	    
+	    url: "products",
+		products: [],
+		product: {id:0, name:"", subTitle:"",
+			originalPrice:99.9, promotePrice:88, stock:99,cid:cid},
+		category: {id:0, name:""},
+	};
+	
+	var vue = new Vue({
+		
+		el: "#listProduct",
+		data: data4Vue,
+		// 页面加载时执行
+		mounted: function () {
+			
+		    this.list();
+		    this.getCategory();
+        },
+		methods: {
+		    
+		    list: function () {
+				
+		        var url = "categories/" + cid + "/" + this.url;
+		        axios.get(url).then(function (response) {
+					
+		            vue.products = response.data;
+                })
+            },
+			add: function () {
+				
+		        var url = this.url;
+		        axios.post(url,	this.product).then(function (response) {
+					
+		            vue.list();
+                })
+            },
+            // 获取分类，用于面包屑名称
+            getCategory: function(){
+
+                var url = "categories/" + cid;
+                axios.get(url).then(function (response) {
+
+                    vue.category = response.data;
+                })
+            },
+		}
+	})
+	
+</script>
 
 </body>
 </html>
