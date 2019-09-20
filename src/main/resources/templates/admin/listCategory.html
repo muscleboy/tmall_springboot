@@ -52,7 +52,7 @@
 						</a>
 					</td>
 					<td>
-						<a :href="'admin_category_delete?cid=' + bean.id">
+						<a :href="'admin_category_delete?cid=' + bean.id" @click="deleteCategory($event,bean.id)">
 							<span class="glyphicon glyphicon-trash"></span>
 						</a>
 					</td>
@@ -94,6 +94,8 @@
 
 <script type="text/javascript">
 
+	var cid = getUrlParam("cid");
+	
 	$(function () {
 
 		var data4Vue = {
@@ -143,8 +145,7 @@
                             'Content-Type': 'multipart/form-data'
                         }
                     };
-
-
+					
                     axios.post(url, formData, config).then(function (response) {
 						
                         vue.list(0);
@@ -153,6 +154,17 @@
                         vue.file = null;
 					})
                 },
+				deleteCategory: function(e, id){
+				  
+				    e.preventDefault();
+				    // 传入一个事件，取消默认行为, ID从遍历的时候传入
+				    var url = this.url + "/" + id;
+				    alert(url);
+				    axios.delete(url).then(function (response) {
+						
+				        vue.list(0);
+                    })
+				},
                 getFile: function (event) {
                     this.file = event.target.files[0];
                 },

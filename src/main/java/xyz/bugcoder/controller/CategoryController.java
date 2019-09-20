@@ -53,6 +53,15 @@ public class CategoryController {
         saveOrUpdateImageFile(c, image, request);
     }
 
+    @DeleteMapping("/categories/{id}")
+    public void delete(@PathVariable(value = "id") int id, HttpServletRequest request) throws IOException {
+
+        categoryService.delete(id);
+        File path = new File(request.getServletContext().getRealPath("images/category"));
+        File file = new File(path, id + ".jpg");
+        file.delete();
+    }
+
     // 实体类不需要加上@RequestBody注解，加上会出错...
     public void saveOrUpdateImageFile(Category c, MultipartFile image, HttpServletRequest request)
             throws IOException {
