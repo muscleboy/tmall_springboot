@@ -1,16 +1,9 @@
 package xyz.bugcoder.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import xyz.bugcoder.bean.Product;
 import xyz.bugcoder.service.ProductService;
-
-import java.util.List;
 
 /**
  * @Package: xyz.bugcoder.controller
@@ -64,6 +57,12 @@ public class AdminPageController {
 //        m.addAttribute("page", page);
 
         return "admin/listProduct";
+    }
+
+    @RequestMapping("/admin_product_edit")
+    public String editProduct(){
+
+        return "admin/editProduct";
     }
 
     // 更新属性已通过ajax完成，这个方法就不需要了，editProperty.html也不需要了

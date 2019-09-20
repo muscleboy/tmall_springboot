@@ -39,6 +39,12 @@ public class CategoryController {
         return page;
     }
 
+//    @GetMapping("/categories/{id}")
+//    public int getCid(@PathVariable(value = "id") int id){
+//
+//        Category c =
+//    }
+
     @PostMapping("/categories")
     public void add(Category c, MultipartFile image, HttpServletRequest request) throws IOException {
 

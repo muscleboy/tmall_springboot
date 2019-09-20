@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:include="admin/resources.html :: resources">
+</head>
+<body>
+
+<div th:replace="admin/admin.html :: navbar"></div>
+
+<div class="m-container" id="editProduct">
+	<div class="control-label">
+		<span class="label label-success">编辑产品属性</span>
+	</div>
+	<br>
+	<ol class="breadcrumb">
+		<li><a href="admin_category_list">所有分类</a></li>
+		<li><a href="admin_category_list">{{category.name}}</a></li>
+		<li class="active">编辑产品属性</li>
+	</ol>
+	<div class="editPropertyDiv">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				新增产品
+			</div>
+			<div class="panel-body">
+				<input type="hidden" name="id" v-model="product.id">
+				<!--name属性不影响，只是输入的时候没有历史记录-->
+				产品名称:<input v-model="product.name"  type="text" class="form-control">
+				<br>
+				产品小标题:<input v-model="product.subTitle"  type="text" class="form-control">
+				<br>
+				原价:<input  v-model="product.originalPrice"  type="number" class="form-control">
+				<br>
+				促销价:<input  v-model="product.promotePrice" type="number" class="form-control">
+				<br>
+				库存:<input  v-model="product.stock" type="number" class="form-control">
+			</div>
+			<div class="submitBtn">
+				<button type="submit" @click="update" class="btn btn-success">更新</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+
+	var pid = getUrlParam("id");
+	
+    var data4Vue = {
+
+        url: "products",
+        products: [],
+        product: {id:0, name:"", subTitle:"",
+            originalPrice:99.9, promotePrice:88, stock:99},
+        category: {id:0, name:""},
+    };
+	
+    var vue = new Vue({
+		
+		el: "#editProduct",
+		data: data4Vue,
+		mounted: function () {
+			
+		    this.get();
+        },
+		methods: {
+		    
+		    get: function () {
+				
+		        var url = this.url + "/" + pid;
+		        axios.get(url).then(function (response) {
+					
+		            vue.product = response.data;
+                })
+            },
+            update: function () {
+				
+		        var url = this.url;
+		        axios.put(url, this.product).then(function (response) {
+					
+		            vue.product = response.data;
+		            window.location.href
+                })
+            },
+			getCagory: function () {
+				
+		        var url = this.url
+            }
+		}
+	})
+ 
+</script>
+
+</body>
+</html>

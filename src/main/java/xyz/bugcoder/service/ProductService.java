@@ -1,5 +1,6 @@
 package xyz.bugcoder.service;
 
+import xyz.bugcoder.bean.Category;
 import xyz.bugcoder.bean.Product;
 
 import java.util.List;
@@ -19,5 +20,6 @@ public interface ProductService {
     void update(Product p);
     Product get(int id);
     List<Product> list(int cid);
+//    Category getCategoryByPid(int id);
 
 }

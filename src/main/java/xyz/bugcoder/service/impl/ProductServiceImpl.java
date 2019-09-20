@@ -3,6 +3,7 @@ package xyz.bugcoder.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.bugcoder.bean.Category;
+import xyz.bugcoder.bean.CategoryExample;
 import xyz.bugcoder.bean.Product;
 import xyz.bugcoder.bean.ProductExample;
 import xyz.bugcoder.mapper.ProductMapper;
@@ -49,24 +50,24 @@ public class ProductServiceImpl implements ProductService {
     public Product get(int id) {
 
         Product p = productMapper.selectByPrimaryKey(id);
-        setCategory(p);
+//        setCategory(p);
 
         return p;
     }
 
-    public void setCategory(Product p){
-
-        Category c = categoryService.get(p.getCid());
-        p.setCategory(c);
-    }
-
-    public void setCategory(List<Product> ps){
-
-        for (Product p : ps) {
-
-            setCategory(p);
-        }
-    }
+//    public void setCategory(Product p){
+//
+//        Category c = categoryService.get(p.getCid());
+//        p.setCategory(c);
+//    }
+//
+//    public void setCategory(List<Product> ps){
+//
+//        for (Product p : ps) {
+//
+//            setCategory(p);
+//        }
+//    }
 
     @Override
     public List<Product> list(int cid) {
@@ -76,8 +77,16 @@ public class ProductServiceImpl implements ProductService {
                 .andCidEqualTo(cid);
         example.setOrderByClause("id desc");
         List result = productMapper.selectByExample(example);
-        setCategory(result);
+//        setCategory(result);
 
         return result;
     }
+
+//    @Override
+//    public Category getCategoryByPid(int id) {
+//
+//        CategoryExample example = new CategoryExample();
+//        example.createCriteria()
+//                .andIdEqualTo(id);
+//    }
 }
