@@ -36,6 +36,12 @@ public class AdminPageController {
         return "admin/listOrder";
     }
 
+    @RequestMapping("/admin_category_edit")
+    public String editCategory(){
+
+        return "admin/editCategory";
+    }
+
     // 更新属性已通过ajax完成，这个方法就不需要了，editProperty.html也不需要了
 //    @RequestMapping("/admin_property_edit")
 //    public String editProperty(){

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:include="admin/resources.html :: resources">
+</head>
+<body>
+
+<div th:replace="admin/admin.html :: navbar"></div>
+
+<div class="m-container" id="editCategory">
+	<div class="control-label">
+		<span class="label label-success">分类管理</span>
+	</div>
+	<br>
+	<ol class="breadcrumb">
+		<li><a href="#">分类管理</a></li>
+		<!--<li><a href="#">Library</a></li>-->
+		<li class="active">编辑分类</li>
+	</ol>
+	<div class="editPropertyDiv">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				编辑分类
+			</div>
+			<div class="panel-body">
+				<!--图片上传-->
+				<input type="hidden" name="id" v-model="category.id">
+				分类名称:<input  v-model="category.name" name="name" type="text" class="form-control">
+				<input id="categoryPic" accept="image/*" type="file" name="image" @change="getFile($event)" />
+			</div>
+			<div class="submitBtn">
+				<button type="submit" @click="update" class="btn btn-success">添加</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	
+	var cid = getUrlParam("cid");
+	
+	var data4Vue = {
+	    
+	    url: "categories",
+	    category: {id:0, name:""},
+		file: null
+	};
+	
+	var vue = new Vue({
+		
+		el: "#editCategory",
+		data: data4Vue,
+		methods: {
+		 
+			update: function () {
+				
+			    if (!isEmpty(this.category.name, "分类名称"))
+			        return;
+			    if (!isEmpty(this.file, "分类图片"))
+			        return;
+			    
+			    // 要带上cid，后端update的时候，会带上id
+			    var url = this.url + "/" + cid;
+			    var formData = new FormData();
+				formData.append("name", this.category.name);
+				formData.append("image", this.file);
+			    
+			    axios.put(url, formData).then(function (response) {
+					
+			        window.location.href = "admin_category_list";
+			        vue.category = {id:0, name:""};
+			        vue.file = null;
+                })
+            },
+            getFile: function (event) {
+                this.file = event.target.files[0];
+            },
+		}
+	})
+	
+</script>
+
+</body>
+</html>
