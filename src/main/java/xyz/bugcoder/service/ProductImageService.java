@@ -19,7 +19,7 @@ public interface ProductImageService {
 
     void add(ProductImage pi);
     void delete(int id);
-    ProductImage get(int pid, String type);
+    ProductImage get(int pid);
     List<ProductImage> listSingleImages(int pid);
     List<ProductImage> listDetailImages(int pid);
 

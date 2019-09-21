@@ -15,8 +15,8 @@
 		<li><a href="admin_category_list">所有分类</a></li>
 		<!--<li><a href="admin_category_list">{{category.name}}</a></li>-->
 		<!--<li><a href="admin_category_list">{{product.name}}</a></li>-->
-		<li><a href="admin_category_list">爱上杜甫</a></li>
-		<li><a href="admin_category_list">阿斯顿发生</a></li>
+		<li><a href="admin_category_list">{{category.name}}</a></li>
+		<li><a href="admin_product_list">{{product.name}}</a></li>
 		<li class="active">产品图片管理</li>
 	</ol>
 	<div class="productImageDiv">
@@ -51,7 +51,7 @@
 								</td>
 								<td>
 									<!--我艹，这个:href....导致一直加载不出，测试又正常-->
-									<a href="'admin_productImage_delete" >
+									<a :href="'admin_productImage_delete' + pi.id" @click="deleteSingle($event,pi.id)">
 										<span class="glyphicon glyphicon-trash"></span>
 									</a>
 								</td>
@@ -89,7 +89,7 @@
 									<img :src="'images/productDetail/'+pi.id+'.jpg'" width="200px" height="100">
 								</td>
 								<td>
-									<a href="'admin_productImage_delete" >
+									<a :href="'admin_productImage_delete'+pi.id" @click="deleteDetail($event, pi.id)" >
 										<span class="glyphicon glyphicon-trash"></span>
 									</a>
 								</td>
@@ -113,6 +113,8 @@
 	    detailImages: [],
 		singleFile: null,
 		detailFile: null,
+		product: "",
+		category: ""
 	};
 
 	var vue = new Vue({
@@ -123,6 +125,8 @@
 			
 		    this.listSingles();
 		    this.listDetails();
+		    this.getProduct();
+		    this.getCategory();
         },
 		methods: {
 
@@ -156,6 +160,8 @@
                 axios.post(url, formData).then(function (response) {
 					
                     vue.listSingles();
+                    vue.productImage = response.productImage;
+                    // 上传完图片刷新浏览器
                     window.location.reload();
                 })
             },
@@ -173,6 +179,8 @@
                 axios.post(url, formData).then(function (response) {
 
                     vue.listDetails();
+                    vue.product = response.data;
+                    // 上传完图片刷新浏览器
                     window.location.reload();
                 })
             },
@@ -183,6 +191,41 @@
             getDetailFile: function (e) {
 
                 this.detailFile = e.target.files[0];
+            },
+			getProduct: function () {
+				
+                var url = "productImages/" + id;
+                axios.get(url).then(function (response) {
+					
+                    vue.product = response.data;
+                })
+            },
+			// TODO
+            getCategory: function () {
+
+                var url = "productImages/" + vue.product.cid;
+                axios.get(url).then(function (response) {
+
+                    vue.category = response.data;
+                })
+            },
+            deleteSingle: function (e, id) {
+				
+                e.preventDefault();
+                var url = "productImages/" + id + "?type=single";
+                axios.delete(url).then(function (response) {
+					
+                    vue.listSingles();
+                })
+            },
+            deleteDetail: function (e, id) {
+
+                e.preventDefault();
+                var url = "productImages/" + id +"?type=detail";
+                axios.delete(url).then(function (response) {
+
+                    vue.listDetails();
+                })
             }
 		}
 	})

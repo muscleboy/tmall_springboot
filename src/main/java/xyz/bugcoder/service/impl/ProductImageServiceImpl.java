@@ -40,14 +40,14 @@ public class ProductImageServiceImpl implements ProductImageService {
     }
 
     @Override
-    public ProductImage get(int pid, String type) {
+    public ProductImage get(int pid) {
 
-//        type = "single";
+////        type = "single";
         ProductImageExample example = new ProductImageExample();
         example.createCriteria()
-                .andPidEqualTo(pid)
-                .andTypeEqualTo(type);
-        example.setOrderByClause("id");
+                .andPidEqualTo(pid);
+//                .andTypeEqualTo(type);
+        example.setOrderByClause("id desc");
         List<ProductImage> list = productImageMapper.selectByExample(example);
         return list.get(0);
     }

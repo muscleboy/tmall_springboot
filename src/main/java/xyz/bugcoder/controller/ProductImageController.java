@@ -73,6 +73,7 @@ public class ProductImageController {
         }
 
         // 获取路径
+//        System.out.println(pi);
         File imageFolder = new File(request.getServletContext().getRealPath(folder));
         File imageFile = new File(imageFolder, pi.getId() + ".jpg");
         if (!imageFile.getParentFile().exists())
@@ -86,7 +87,38 @@ public class ProductImageController {
         image.transferTo(imageFile);
         System.out.println("保存图片");
 
-        return  pi;
+        return pi;
+    }
+
+    // 根据PID获取产品，以及分类
+    @GetMapping("/productImages/{id}")
+    public Product getProduct(@PathVariable(value = "id") int id){
+
+        Product p = productService.get(id);
+//        System.out.println(p);
+
+        return p;
+    }
+
+    // 删除产品图片(数据库 + 文件)
+    @DeleteMapping("/productImages/{id}")
+    public void delete(@PathVariable(value = "id")int id,
+                       @RequestParam("type")String type
+                       ){
+
+        productImageService.delete(id);
+        String folder = "images/";
+        if (productImageService.type_single.equals(type)){
+
+            folder += "productSingle";
+        }else {
+
+            folder += "productDetail";
+        }
+
+        File file = new File(folder, id + ".jpg");
+        file.delete();
+        System.out.println("删除图片");
     }
 
 }
