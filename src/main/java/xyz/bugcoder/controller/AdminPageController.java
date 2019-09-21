@@ -65,6 +65,12 @@ public class AdminPageController {
         return "admin/editProduct";
     }
 
+    @RequestMapping("/admin_productImage_list")
+    public String listProductImage(){
+
+        return "admin/listProductImage";
+    }
+
     // 更新属性已通过ajax完成，这个方法就不需要了，editProperty.html也不需要了
 //    @RequestMapping("/admin_property_edit")
 //    public String editProperty(){
