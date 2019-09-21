@@ -72,16 +72,16 @@ public class CategoryController {
     }
 
     // 实体类不需要加上@RequestBody注解，加上会出错...
-    public void saveOrUpdateImageFile(Category c, MultipartFile image, HttpServletRequest request)
+    public void saveOrUpdateImageFile(Category c, MultipartFile file, HttpServletRequest request)
             throws IOException {
 
         // 获取到的路径是webapp(需要自己创建)下的，放在static下获取不到路径，有莫名的Bug
         File imageFolder= new File(request.getServletContext().getRealPath("images/category"));
         // mybatis generator生成的时候，table属性没有设置generatedKey
         // 导致add之后，取到的id为空
-        File file = new File(imageFolder,c.getId() + ".jpg");
-        if(!file.getParentFile().exists())
-            file.getParentFile().mkdirs();
-        image.transferTo(file);
+        File image = new File(imageFolder,c.getId() + ".jpg");
+        if(!image.getParentFile().exists())
+            image.getParentFile().mkdirs();
+        file.transferTo(image);
     }
 }

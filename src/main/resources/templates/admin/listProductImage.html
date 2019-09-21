@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-	  xmlns:v-bind="http://www.w3.org/1999/xhtml">
+>
 <head th:include="admin/resources.html :: resources">
 </head>
 <body>
@@ -23,6 +23,18 @@
 		<div class="row">
 			<div class="col-xs-4 col-xs-push-1">
 				<div class="productSingleImg">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							新增产品单个图片
+						</div>
+						<div class="panel-body">
+							<!--图片上传-->
+							<input accept="image/*" type="file" name="image" @change="getSingleFile($event)" />
+						</div>
+						<div class="submitBtn">
+							<button type="submit" @click="addSingle" class="btn btn-success">添加</button>
+						</div>
+					</div>
 					<table class="table table-bordered">
 						<thead class="bg-info">
 							<tr>
@@ -32,26 +44,36 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>999</td>
+							<tr v-for="pi in singleImages">
+								<td>{{pi.id}}</td>
 								<td>
-									<img src="images/productSingle/19.jpg" alt="单个产品图片" width="100px">
+									<img width="200" height="100" :src="'images/productSingle/'+pi.id+'.jpg'">
 								</td>
 								<td>
-									<a :href="'admin_productImage_delete" >
+									<!--我艹，这个:href....导致一直加载不出，测试又正常-->
+									<a href="'admin_productImage_delete" >
 										<span class="glyphicon glyphicon-trash"></span>
 									</a>
 								</td>
 							</tr>
 						</tbody>
 					</table>
-					<div class="submitBtn">
-						<button type="submit" @click="add" class="btn btn-success">添加</button>
-					</div>
 				</div>
 			</div>
 			<div class="col-xs-4 col-xs-push-3">
 				<div class="productDetailImg">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							新增产品详情图片
+						</div>
+						<div class="panel-body">
+							<!--图片上传-->
+							<input accept="image/*" id="detailPic" type="file" name="image" @change="getDetailFile($event)" />
+						</div>
+						<div class="submitBtn">
+							<button type="submit" @click="addDetail" class="btn btn-success">添加</button>
+						</div>
+					</div>
 					<table class="table table-bordered">
 						<thead class="bg-info">
 							<tr>
@@ -61,22 +83,19 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>999</td>
+							<tr v-for="pi in detailImages">
+								<td>{{pi.id}}</td>
 								<td>
-									<img src="images/productSingle/19.jpg" alt="单个产品图片" width="100px">
+									<img :src="'images/productDetail/'+pi.id+'.jpg'" width="200px" height="100">
 								</td>
 								<td>
-									<a :href="'admin_productImage_delete" >
+									<a href="'admin_productImage_delete" >
 										<span class="glyphicon glyphicon-trash"></span>
 									</a>
 								</td>
 							</tr>
 						</tbody>
 					</table>
-					<div class="submitBtn">
-						<button type="submit" @click="add" class="btn btn-success">添加</button>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -85,25 +104,85 @@
 
 <script>
 
+	var id = getUrlParam("id");
+	
 	var data4Vue = {
-	    
-	    url: "productImage",
-	    productImages: [],
-		productImage: {id:0, pid: "", type:""}
+
+	    url: "products",
+	    singleImages: [],
+	    detailImages: [],
+		singleFile: null,
+		detailFile: null,
 	};
 
 	var vue = new Vue({
 		
-		el: "listProductImage",
+		el: "#listProductImage",
 		data: data4Vue,
 		mounted: function () {
 			
+		    this.listSingles();
+		    this.listDetails();
         },
 		methods: {
-		    
-		    list: function () {
+
+            listSingles: function () {
 				
-		        
+		        var url = this.url + "/" + id + "/productImages?type=single";
+		        axios.get(url).then(function (response) {
+					
+		            vue.singleImages = response.data;
+                })
+            },
+            listDetails: function () {
+
+                var url = this.url + "/" + id + "/productImages?type=detail";
+                axios.get(url).then(function (response) {
+
+                    vue.detailImages = response.data;
+                })
+            },
+            addSingle: function () {
+				
+                if (!isEmpty(this.singleFile, "单个产品图片"))
+                    return;
+                
+                var formData = new FormData();
+                formData.append("image", this.singleFile);
+                
+                var url = "productImages?type=single&pid="+id;
+				
+                alert("single" + id);
+                axios.post(url, formData).then(function (response) {
+					
+                    vue.listSingles();
+                    window.location.reload();
+                })
+            },
+            addDetail: function () {
+
+                if (!isEmpty(this.detailFile, "产品详情图片"))
+                    return;
+
+                var formData = new FormData();
+                formData.append("image", this.detailFile);
+
+                var url = "productImages?type=detail&pid="+id;
+                
+                // alert(1);
+                axios.post(url, formData).then(function (response) {
+
+                    vue.listDetails();
+                    window.location.reload();
+                })
+            },
+            getSingleFile: function (e) {
+				
+                this.singleFile = e.target.files[0];
+            },
+            getDetailFile: function (e) {
+
+                this.detailFile = e.target.files[0];
             }
 		}
 	})
