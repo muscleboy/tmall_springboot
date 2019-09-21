@@ -25,7 +25,8 @@ public class ProductController {
     @Autowired
     CategoryService categoryService;
 
-    @GetMapping("categories/{cid}/products")
+    // 获取一个分类下的所有产品，所以应该用category
+    @GetMapping("category/{cid}/products")
     public List<Product> listByCid(@PathVariable(value = "cid") int cid){
 
         return productService.list(cid);
@@ -56,10 +57,17 @@ public class ProductController {
     }
 
     // 获取产品
-    @GetMapping("/products/{id}")
-    public Product get(@PathVariable(value = "id") int id){
+    @GetMapping("/products/{cid}")
+    public Product get(@PathVariable(value = "cid") int cid){
 
-        return productService.get(id);
+        return productService.get(cid);
+    }
+
+    // 删除产品
+    @DeleteMapping("/products/{id}")
+    public void delete(@PathVariable(value = "id")int id){
+
+        productService.delete(id);
     }
 
 }

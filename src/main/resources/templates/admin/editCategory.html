@@ -41,7 +41,7 @@
 	var data4Vue = {
 	    
 	    url: "categories",
-	    category: {id:0, name:""},
+        category: {id:0, name:""},
 		file: null
 	};
 	
@@ -49,6 +49,10 @@
 		
 		el: "#editCategory",
 		data: data4Vue,
+		mounted: function(){
+			
+		    this.getCategory();
+		},
 		methods: {
 		 
 			update: function () {
@@ -73,6 +77,14 @@
             },
             getFile: function (event) {
                 this.file = event.target.files[0];
+            },
+            getCategory: function(){
+
+                var url = "categories/" + cid;
+                axios.get(url).then(function (response) {
+
+                    vue.category = response.data;
+                })
             },
 		}
 	})

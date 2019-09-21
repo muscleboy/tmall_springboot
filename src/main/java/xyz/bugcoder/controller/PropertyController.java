@@ -46,7 +46,8 @@ public class PropertyController {
         return page;
     }
 
-    @GetMapping("/categories/{cid}")
+    // 获取一个分类下的所有属性，所以应该用category
+    @GetMapping("/category/{cid}/properties")
     public Category getCategory(@PathVariable(value = "cid") int cid){
 
         return categoryService.get(cid);

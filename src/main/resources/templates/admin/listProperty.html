@@ -106,7 +106,7 @@
 			// 获取分类，用于面包屑名称
 			getCategory: function(cid){
 
-				var url = "categories/" + cid;
+				var url = "category/" + cid + "/properties";
 				axios.get(url).then(function (response) {
 
 					vue.category = response.data;

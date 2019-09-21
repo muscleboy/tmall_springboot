@@ -39,12 +39,13 @@ public class CategoryController {
         return page;
     }
 
-//    @GetMapping("/categories/{id}")
-//    public int getCid(@PathVariable(value = "id") int id){
-//
-//        Category c =
-//    }
+    @GetMapping("/categories/{id}")
+    public Category getCategory(@PathVariable(value = "id") int id){
 
+        return categoryService.get(id);
+    }
+
+    // 新增分类
     @PostMapping("/categories")
     public void add(Category c, MultipartFile image, HttpServletRequest request) throws IOException {
 
@@ -52,6 +53,7 @@ public class CategoryController {
         saveOrUpdateImageFile(c, image, request);
     }
 
+    // 更新分类
     @PutMapping("/categories/{id}")
     public void update(Category c, MultipartFile image, HttpServletRequest request) throws IOException {
 
@@ -59,6 +61,7 @@ public class CategoryController {
         saveOrUpdateImageFile(c, image, request);
     }
 
+    // 删除分类，并且删除相应图片
     @DeleteMapping("/categories/{id}")
     public void delete(@PathVariable(value = "id") int id, HttpServletRequest request) throws IOException {
 

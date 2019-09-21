@@ -61,7 +61,7 @@
 							</a>
 						</td>
 						<td>
-							<a :href="'admin_product_delete?id=' + p.id" >
+							<a :href="'admin_product_delete?id=' + p.id" @click="deleteProduct($event,p.id)">
 								<span class="glyphicon glyphicon-trash"></span>
 							</a>
 						</td>
@@ -122,7 +122,7 @@
 		    
 		    list: function () {
 				
-		        var url = "categories/" + cid + "/" + this.url;
+		        var url = "category/" + cid + "/" + this.url;
 		        axios.get(url).then(function (response) {
 					
 		            vue.products = response.data;
@@ -145,6 +145,15 @@
                     vue.category = response.data;
                 })
             },
+			deleteProduct: function (e, id) {
+				
+		        e.preventDefault();
+		        var url = this.url + "/" + id;
+		        axios.delete(url).then(function (response) {
+					
+		            vue.list();
+                })
+            }
 		}
 	})
 	
