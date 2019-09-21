@@ -13,7 +13,7 @@
 	<br>
 	<ol class="breadcrumb">
 		<li><a href="admin_category_list">所有分类</a></li>
-		<li><a href="admin_category_list">{{category.name}}</a></li>
+		<li><a href="'admin_category_list?cid=' + category.id">{{category.name}}</a></li>
 		<li class="active">编辑产品属性</li>
 	</ol>
 	<div class="editPropertyDiv">
@@ -61,6 +61,7 @@
 		mounted: function () {
 			
 		    this.get();
+		    this.getCategory();
         },
 		methods: {
 		    
@@ -78,12 +79,16 @@
 		        axios.put(url, this.product).then(function (response) {
 					
 		            vue.product = response.data;
-		            window.location.href
+		            window.location.href = "admin_product_list?cid=" + vue.category.id;
                 })
             },
-			getCagory: function () {
-				
-		        var url = this.url
+			getCategory: function () {
+
+		        var url = "categories/" + this.url + "/" + pid;
+		        axios.get(url).then(function (response) {
+					
+		            vue.category = response.data;
+                })
             }
 		}
 	})

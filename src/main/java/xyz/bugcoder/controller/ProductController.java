@@ -42,9 +42,17 @@ public class ProductController {
     @PutMapping("/products")
     public void update(@RequestBody Product p){
 
-        Category c = categoryService.get(p.getCid());
-        System.out.println(c.getId());
+//        Category c = categoryService.get(p.getCid());
+//        System.out.println(c.getId());
         productService.update(p);
+    }
+
+    // 获取分类
+    @GetMapping("/categories/products/{pid}")
+    public Category getCategory(@PathVariable(value = "pid")int pid){
+
+        Product p = productService.get(pid);
+        return categoryService.get(p.getCid());
     }
 
     // 获取产品
