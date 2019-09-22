@@ -3,11 +3,12 @@ package xyz.bugcoder.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.bugcoder.bean.Category;
-import xyz.bugcoder.bean.CategoryExample;
 import xyz.bugcoder.bean.Product;
 import xyz.bugcoder.bean.ProductExample;
+import xyz.bugcoder.bean.ProductImage;
 import xyz.bugcoder.mapper.ProductMapper;
 import xyz.bugcoder.service.CategoryService;
+import xyz.bugcoder.service.ProductImageService;
 import xyz.bugcoder.service.ProductService;
 
 import java.util.List;
@@ -27,6 +28,8 @@ public class ProductServiceImpl implements ProductService {
     ProductMapper productMapper;
     @Autowired
     CategoryService categoryService;
+    @Autowired
+    ProductImageService productImageService;
 
     @Override
     public void add(Product p) {
@@ -50,24 +53,41 @@ public class ProductServiceImpl implements ProductService {
     public Product get(int id) {
 
         Product p = productMapper.selectByPrimaryKey(id);
-//        setCategory(p);
+        setCategory(p);
 
         return p;
     }
 
-//    public void setCategory(Product p){
-//
-//        Category c = categoryService.get(p.getCid());
-//        p.setCategory(c);
-//    }
-//
-//    public void setCategory(List<Product> ps){
-//
-//        for (Product p : ps) {
-//
-//            setCategory(p);
-//        }
-//    }
+    public void setCategory(Product p){
+
+        Category c = categoryService.get(p.getCid());
+        p.setCategory(c);
+    }
+
+    public void setCategory(List<Product> ps){
+
+        for (Product p : ps) {
+
+            setCategory(p);
+        }
+    }
+
+    // 设置产品图片，默认显示第一张productSingle图片
+    public void setProductImage(Product p){
+
+        List<ProductImage> pis = productImageService.listSingleImages(p.getId());
+        if (pis != null){
+
+            p.setProductImage(pis.get(1));
+        }
+    }
+
+    public void setProductImage(List<Product> ps){
+
+        for (Product p : ps) {
+            setProductImage(p);
+        }
+    }
 
     @Override
     public List<Product> list(int cid) {
@@ -77,7 +97,7 @@ public class ProductServiceImpl implements ProductService {
                 .andCidEqualTo(cid);
         example.setOrderByClause("id desc");
         List result = productMapper.selectByExample(example);
-//        setCategory(result);
+        setCategory(result);
 
         return result;
     }

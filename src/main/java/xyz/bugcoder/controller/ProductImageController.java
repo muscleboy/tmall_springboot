@@ -3,8 +3,10 @@ package xyz.bugcoder.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import xyz.bugcoder.bean.Category;
 import xyz.bugcoder.bean.Product;
 import xyz.bugcoder.bean.ProductImage;
+import xyz.bugcoder.service.CategoryService;
 import xyz.bugcoder.service.ProductImageService;
 import xyz.bugcoder.service.ProductService;
 
@@ -29,6 +31,8 @@ public class ProductImageController {
     ProductImageService productImageService;
     @Autowired
     ProductService productService;
+    @Autowired
+    CategoryService categoryService;
 
     // 根据前端传过来的type来获取产品图片
     @GetMapping("/products/{pid}/productImages")
@@ -95,8 +99,12 @@ public class ProductImageController {
     public Product getProduct(@PathVariable(value = "id") int id){
 
         Product p = productService.get(id);
-//        System.out.println(p);
+        Category c = categoryService.get(p.getCid());
+        ProductImage firstImg = productImageService.listSingleImages(p.getId()).get(0);
+        p.setCategory(c);
+        p.setProductImage(firstImg);
 
+        System.out.println(p);
         return p;
     }
 

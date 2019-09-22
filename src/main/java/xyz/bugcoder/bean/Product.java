@@ -22,6 +22,8 @@ public class Product {
     // 非数据库字段
     private Category category;
 
+    private ProductImage productImage;
+
     @Override
     public String toString() {
         return "Product{" +
@@ -34,7 +36,16 @@ public class Product {
                 ", cid=" + cid +
                 ", createDate=" + createDate +
                 ", category=" + category +
+                ", productImage=" + productImage +
                 '}';
+    }
+
+    public ProductImage getProductImage() {
+        return productImage;
+    }
+
+    public void setProductImage(ProductImage productImage) {
+        this.productImage = productImage;
     }
 
     public Category getCategory() {

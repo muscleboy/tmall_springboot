@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xyz.bugcoder.bean.Category;
 import xyz.bugcoder.bean.Product;
+import xyz.bugcoder.bean.ProductImage;
 import xyz.bugcoder.service.CategoryService;
+import xyz.bugcoder.service.ProductImageService;
 import xyz.bugcoder.service.ProductService;
 
 import java.util.List;
@@ -24,12 +26,22 @@ public class ProductController {
     ProductService productService;
     @Autowired
     CategoryService categoryService;
+    @Autowired
+    ProductImageService productImageService;
 
     // 获取一个分类下的所有产品，所以应该用category
     @GetMapping("category/{cid}/products")
     public List<Product> listByCid(@PathVariable(value = "cid") int cid){
 
-        return productService.list(cid);
+        List<Product> ps = productService.list(cid);
+        for (Product p : ps) {
+
+            ProductImage pi = productImageService.listSingleImages(p.getId()).get(0);
+            p.setProductImage(pi);
+            System.out.println(p);
+        }
+
+        return ps;
     }
 
     // 新增产品

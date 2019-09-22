@@ -13,9 +13,7 @@
 	<br>
 	<ol class="breadcrumb">
 		<li><a href="admin_category_list">所有分类</a></li>
-		<!--<li><a href="admin_category_list">{{category.name}}</a></li>-->
-		<!--<li><a href="admin_category_list">{{product.name}}</a></li>-->
-		<li><a href="admin_category_list">{{category.name}}</a></li>
+		<li><a href="'admin_product_list?cid='+category.id">{{category.name}}</a></li>
 		<li><a href="admin_product_list">{{product.name}}</a></li>
 		<li class="active">产品图片管理</li>
 	</ol>
@@ -78,7 +76,7 @@
 						<thead class="bg-info">
 							<tr>
 								<th>ID</th>
-								<th>单个产品图片</th>
+								<th>产品详情图片</th>
 								<th>操作</th>
 							</tr>
 						</thead>
@@ -114,7 +112,7 @@
 		singleFile: null,
 		detailFile: null,
 		product: "",
-		category: ""
+		category: "",
 	};
 
 	var vue = new Vue({
@@ -126,7 +124,7 @@
 		    this.listSingles();
 		    this.listDetails();
 		    this.getProduct();
-		    this.getCategory();
+		    // this.getCategory();
         },
 		methods: {
 
@@ -156,7 +154,6 @@
                 
                 var url = "productImages?type=single&pid="+id;
 				
-                alert("single" + id);
                 axios.post(url, formData).then(function (response) {
 					
                     vue.listSingles();
@@ -175,7 +172,6 @@
 
                 var url = "productImages?type=detail&pid="+id;
                 
-                // alert(1);
                 axios.post(url, formData).then(function (response) {
 
                     vue.listDetails();
@@ -192,21 +188,14 @@
 
                 this.detailFile = e.target.files[0];
             },
+			// 获取产品以及分类，用于面包屑
 			getProduct: function () {
 				
                 var url = "productImages/" + id;
                 axios.get(url).then(function (response) {
 					
                     vue.product = response.data;
-                })
-            },
-			// TODO
-            getCategory: function () {
-
-                var url = "productImages/" + vue.product.cid;
-                axios.get(url).then(function (response) {
-
-                    vue.category = response.data;
+                    vue.category = vue.product.category;
                 })
             },
             deleteSingle: function (e, id) {

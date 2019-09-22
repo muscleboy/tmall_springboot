@@ -38,7 +38,8 @@
 					<tr v-for="p in products">
 						<td>{{p.id}}</td>
 						<td>
-							<img height="200px" width="400"  :src="'images/productSingle/'+p.id+'.jpg'">
+							<!--在后端给product设置productImage属性-->
+							<img height="200px" width="400"  :src="'images/productSingle/'+p.productImage.id+'.jpg'">
 						</td>
 						<td>{{p.name}}</td>
 						<td>{{p.subTitle}}</td>
@@ -106,6 +107,7 @@
 		product: {id:0, name:"", subTitle:"",
 			originalPrice:99.9, promotePrice:88, stock:99,cid:cid},
 		category: {id:0, name:""},
+		productImage: ""
 	};
 	
 	var vue = new Vue({
@@ -126,6 +128,8 @@
 		        axios.get(url).then(function (response) {
 					
 		            vue.products = response.data;
+		            vue.productImage = vue.product.productImage;
+		            // vue.productImage[0].id;
                 })
             },
 			add: function () {

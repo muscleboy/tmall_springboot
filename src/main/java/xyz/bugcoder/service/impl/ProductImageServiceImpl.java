@@ -66,6 +66,7 @@ public class ProductImageServiceImpl implements ProductImageService {
         }
     }
 
+    // 获取一个产品的单个图片
     @Override
     public List<ProductImage> listSingleImages(int pid) {
 
@@ -74,9 +75,11 @@ public class ProductImageServiceImpl implements ProductImageService {
                 .andPidEqualTo(pid)
                 .andTypeEqualTo(type_single);
         example.setOrderByClause("id desc");
-        List<ProductImage> list = productImageMapper.selectByExample(example);
-        return list;
+        List<ProductImage> singleImages = productImageMapper.selectByExample(example);
+        return singleImages;
     }
+
+    // 获取一个产品的详情图片
     @Override
     public List<ProductImage> listDetailImages(int pid) {
 
@@ -85,7 +88,7 @@ public class ProductImageServiceImpl implements ProductImageService {
                 .andPidEqualTo(pid)
                 .andTypeEqualTo(type_detail);
         example.setOrderByClause("id desc");
-        List<ProductImage> list = productImageMapper.selectByExample(example);
-        return list;
+        List<ProductImage> detailImages = productImageMapper.selectByExample(example);
+        return detailImages;
     }
 }
