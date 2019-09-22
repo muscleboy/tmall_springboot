@@ -49,8 +49,8 @@
                                 <span class="label label-default">{{o.status | formatStatus()}}</span>
                             </div>
                         </td>
-                        <td>￥3999</td>
-                        <td>3</td>
+                        <td>￥{{o.total}}</td>
+                        <td>{{o.totalNum}}</td>
                         <td>{{o.user.name}}</td>
                         <!--格式化时间-->
                         <td>{{o.createDate | formatDate}}</td>
@@ -88,7 +88,8 @@
         
         url: "orders",
         orders: [],
-        pagination: ""
+        pagination: "",
+        orderItemList: "",
     };
     
     var vue = new Vue({
@@ -108,6 +109,7 @@
                     
                     vue.pagination = response.data;
                     vue.orders = vue.pagination.list;
+                    vue.orderItemList = vue.pagination.orderItemList;
                 })
             },
             jump: function(page){

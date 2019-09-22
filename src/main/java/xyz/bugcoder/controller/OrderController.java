@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.bugcoder.bean.Order;
+import xyz.bugcoder.service.OrderItemService;
 import xyz.bugcoder.service.OrderService;
 
 import java.util.List;
@@ -24,6 +25,8 @@ public class OrderController {
 
     @Autowired
     OrderService orderService;
+    @Autowired
+    OrderItemService orderItemService;
 
     @GetMapping("/orders")
     public PageInfo<Order> listOrder(@RequestParam(value = "start", defaultValue = "0") int start,
@@ -32,6 +35,8 @@ public class OrderController {
         start = start < 0 ? 0 : start;
         PageHelper.startPage(start, size, "id desc");
         List<Order> os = orderService.list();
+        // 给订单设置订单项属性
+        orderItemService.fill(os);
         PageInfo<Order> page = new PageInfo<>(os, 5);
         return page;
     }
