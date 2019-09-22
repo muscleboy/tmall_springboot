@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head th:include="admin/resources.html :: resources">
+</head>
+<body>
+
+<div th:replace="admin/admin.html :: navbar"></div>
+
+<div class="m-container" id="listPropertyValue">
+	<div class="control-label">
+		<span class="label label-success">分类管理</span>
+	</div>
+	<br>
+	<ol class="breadcrumb">
+		<li><a href="admin_category_list">所有分类</a></li>
+		<li><a href="admin_category_list">所有分类</a></li>
+		<li><a href="admin_category_list">所有分类</a></li>
+	</ol>
+	<div class="editPropertyValueDiv">
+		<div class="panel panel-info">
+			<div class="panel-heading" align="center">
+				设置产品属性
+			</div>
+			<div class="panel-body">
+				<template v-for="p in propertyValues">
+					<div class="eachPV">
+						<span class="pvValueName" :ptid="p.id">{{p.property.name}}</span>
+						<span class="pvValueText">
+                        <input type="text" v-model="p.value">
+                    </span>
+						<span pvid="${pv.id}" class="suc"></span>
+					</div>
+				</template>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+
+    var pid = getUrlParam("pid");
+    
+    var data4Vue = {
+        
+        url: "propertyValues",
+        properties: [],
+        propertyValues: "",
+	};
+	
+	var vue = new Vue({
+		
+		el: "#listPropertyValue",
+		data: data4Vue,
+		mounted: function () {
+			
+		    this.getPropertyValue();
+        },
+		methods: {
+		    
+		    // 获取属性值，后端已经设置上了product,property属性
+            getPropertyValue: function () {
+				
+		        var url = "products/" + pid + "/" + this.url;
+		        axios.get(url).then(function (response) {
+					
+		            vue.propertyValues = response.data;
+                })
+            }
+		}
+	})
+	
+</script>
+
+</body>
+</html>

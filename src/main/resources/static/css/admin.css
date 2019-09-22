@@ -40,6 +40,31 @@ div.editPropertyDiv{
     margin: 0 auto;
 }
 
+div.editPropertyValueDiv{
+
+    width: 750px;
+    margin: 0 auto;
+}
+
+div.eachPV{
+
+    display: inline-block;
+    margin: 10px 0;
+}
+
+span.pvValueName{
+
+    margin-left: 10px;
+    width: 140px;
+    display: inline-block;
+}
+
+span.pvValueText{
+
+    width: 200px;
+    display: inline-block;
+}
+
 div.paginationDiv{
 
     width: 230px;
