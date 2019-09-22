@@ -42,13 +42,17 @@ public class ProductImageServiceImpl implements ProductImageService {
     @Override
     public ProductImage get(int pid) {
 
-////        type = "single";
         ProductImageExample example = new ProductImageExample();
         example.createCriteria()
-                .andPidEqualTo(pid);
-//                .andTypeEqualTo(type);
-        example.setOrderByClause("id desc");
+                .andPidEqualTo(pid)
+                .andTypeEqualTo(type_single);
         List<ProductImage> list = productImageMapper.selectByExample(example);
+        if (list.isEmpty()){
+            ProductImage pi = new ProductImage();
+            pi.setPid(1);
+            pi.setType(type_single);
+            return pi;
+        }
         return list.get(0);
     }
 

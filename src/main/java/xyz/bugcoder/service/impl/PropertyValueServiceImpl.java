@@ -7,7 +7,6 @@ import xyz.bugcoder.bean.Property;
 import xyz.bugcoder.bean.PropertyValue;
 import xyz.bugcoder.bean.PropertyValueExample;
 import xyz.bugcoder.mapper.PropertyValueMapper;
-import xyz.bugcoder.service.ProductService;
 import xyz.bugcoder.service.PropertyService;
 import xyz.bugcoder.service.PropertyValueService;
 
@@ -40,25 +39,15 @@ public class PropertyValueServiceImpl implements PropertyValueService {
     public void init(Product p) {
 
         // 现根据cid获取到所有属性
-        List<Property> properties = propertyService.listByCid(p.getCid());
-        for (Property pt : properties) {
-
+        List<Property> pts = propertyService.listByCid(p.getCid());
+        for (Property pt : pts) {
             PropertyValue pv = get(p.getId(), pt.getId());
-            pv.setProduct(p);
-            pv.setProperty(pt);
-            propertyValueMapper.insert(pv);
-            System.out.println("111111111");
-            System.out.println(pv);
             if (pv == null){
 
-                PropertyValue propertyValue = new PropertyValue();
-                propertyValue.setProduct(p);
-                propertyValue.setProperty(pt);
-                System.out.println("222222");
-                System.out.println(propertyValue);
-                propertyValueMapper.insert(propertyValue);
-                System.out.println("3333333");
-                System.out.println(propertyValue);
+                pv = new PropertyValue();
+                pv.setPid(p.getId());
+                pv.setPtid(pt.getId());
+                propertyValueMapper.insert(pv);
             }
         }
     }
@@ -73,6 +62,8 @@ public class PropertyValueServiceImpl implements PropertyValueService {
                 .andPtidEqualTo(ptid);
         example.setOrderByClause("id");
         List<PropertyValue> pvs = propertyValueMapper.selectByExample(example);
+        if (pvs.isEmpty())
+            return null;
         return pvs.get(0);
     }
 
@@ -83,8 +74,13 @@ public class PropertyValueServiceImpl implements PropertyValueService {
         PropertyValueExample example = new PropertyValueExample();
         example.createCriteria()
                 .andPidEqualTo(pid);
-        example.setOrderByClause("id");
         List<PropertyValue> pvs = propertyValueMapper.selectByExample(example);
+        for (PropertyValue pv : pvs) {
+
+            Property pt = propertyService.get(pv.getPtid());
+            // 给属性值设置对应的属性,
+            pv.setProperty(pt);
+        }
         return pvs;
     }
 }

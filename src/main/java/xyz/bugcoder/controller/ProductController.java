@@ -36,9 +36,18 @@ public class ProductController {
         List<Product> ps = productService.list(cid);
         for (Product p : ps) {
 
-            ProductImage pi = productImageService.listSingleImages(p.getId()).get(0);
-            p.setProductImage(pi);
-            System.out.println(p);
+            List<ProductImage> pis = productImageService.listSingleImages(p.getId());
+            if (pis.isEmpty()){
+
+                System.out.println("111111111");
+                ProductImage pi = productImageService.get(p.getId());
+                p.setProductImage(pi);
+                System.out.println(pi);
+                return ps;
+            }
+
+            p.setProductImage(pis.get(0));
+            System.out.println("22222222");
         }
 
         return ps;
@@ -49,6 +58,7 @@ public class ProductController {
     public void add(@RequestBody Product p){
 
         productService.add(p);
+        System.out.println(p);
     }
 
     // 更新产品，返回cid到前端
