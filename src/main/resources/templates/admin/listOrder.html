@@ -31,10 +31,27 @@
                 <template v-for="o in orders">
                     <tr>
                         <td>{{o.id}}</td>
-                        <td>{{o.status}}</td>
+                        <td>
+                            <!--根据订单的状态显示不同的颜色, 要用 === 判断-->
+                            <div v-if="o.status === 'finish'">
+                                <span class="label label-success">{{o.status | formatStatus()}}</span>
+                            </div>
+                            <div v-else-if="o.status === 'waitPay'">
+                                <span class="label label-danger">{{o.status | formatStatus()}}</span>
+                            </div>
+                            <div v-else-if="o.status === 'waitDelivery'">
+                                <span class="label label-primary">{{o.status | formatStatus()}}</span>
+                            </div>
+                            <div v-else-if="o.status === 'waitReview'">
+                                <span class="label label-info">{{o.status | formatStatus()}}</span>
+                            </div>
+                            <div v-else>
+                                <span class="label label-default">{{o.status | formatStatus()}}</span>
+                            </div>
+                        </td>
                         <td>￥3999</td>
                         <td>3</td>
-                        <td>{{o.uid}}</td>
+                        <td>{{o.user.name}}</td>
                         <!--格式化时间-->
                         <td>{{o.createDate | formatDate}}</td>
                         <td>{{o.payDate | formatDate}}</td>
@@ -57,7 +74,6 @@
         
         url: "orders",
         orders: [],
-        uid: [],
     };
     
     var vue = new Vue({
@@ -76,8 +92,6 @@
                 axios.get(url).then(function (response) {
                     
                     vue.orders = response.data;
-                    vue.uid = vue.orders.uid;
-                    alert(vue.uid);
                 })
             },
         }
@@ -90,6 +104,29 @@
             return "";
         formatString = formatString || 'YYYY-MM-DD HH:mm:ss';
         return moment(value).format(formatString);
+    });
+    // 格式化订单状态
+    Vue.filter('formatStatus', function (status) {
+        
+        if(null==status)
+            return "";
+        if (status == "finish"){
+            
+            status = "交易完成";
+        }else if (status == "waitDelivery"){
+            
+            status = "待发货";
+        }else if (status == "waitConfirm"){
+            
+            status = "待收货";
+        }else if (status == "waitReview"){
+            
+            status = "待评价";
+        }else if (status == "waitPay"){
+            
+            status = "待付款";
+        }
+        return status;
     });
     
 </script>

@@ -128,7 +128,7 @@
 		        axios.get(url).then(function (response) {
 					
 		            vue.products = response.data;
-		            // todo 这么写的话，新添加分类、产品时，产品是没有图片的，无法加载
+		            // todo 这么写的话，新添加分类、产品时，产品是没有图片的，无法加载  √
 		            vue.productImage = vue.product.productImage;
                 })
             },
