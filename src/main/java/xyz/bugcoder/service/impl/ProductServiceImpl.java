@@ -58,19 +58,6 @@ public class ProductServiceImpl implements ProductService {
         return p;
     }
 
-    public void setCategory(Product p){
-
-        Category c = categoryService.get(p.getCid());
-        p.setCategory(c);
-    }
-
-    public void setCategory(List<Product> ps){
-
-        for (Product p : ps) {
-
-            setCategory(p);
-        }
-    }
 
     // 设置产品图片，默认显示第一张productSingle图片
     public void setProductImage(Product p){
@@ -102,11 +89,35 @@ public class ProductServiceImpl implements ProductService {
         return result;
     }
 
-//    @Override
-//    public Category getCategoryByPid(int id) {
-//
-//        CategoryExample example = new CategoryExample();
-//        example.createCriteria()
-//                .andIdEqualTo(id);
-//    }
+    // 给产品设置分类
+    public void setCategory(Product p){
+
+        Category c = categoryService.get(p.getCid());
+        p.setCategory(c);
+    }
+
+    public void setCategory(List<Product> ps){
+
+        for (Product p : ps) {
+
+            setCategory(p);
+        }
+    }
+
+    // 给分类设置产品
+    @Override
+    public void fill(Category c) {
+
+        List<Product> ps = list(c.getId());
+        setCategory(ps);
+    }
+
+    @Override
+    public void fill(List<Category> cs) {
+
+        for (Category c : cs) {
+            fill(c);
+        }
+    }
+
 }

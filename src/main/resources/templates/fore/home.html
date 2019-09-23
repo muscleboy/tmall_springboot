@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:c="http://www.w3.org/1999/XSL/Transform">
+<!--include admin/user.html文件下的 fragment(resources)片段-->
+<head th:include="admin/resources.html :: resources">
+</head>
+<body>
+<div class="navbar container-fluid" th:fragment="navbar">
+    <div class="navbar">
+        <span> <a href="forehome" class="glyphicon glyphicon-home">天猫首页</a> </span>
+            <span>喵，欢迎来天猫</span>
+            <span><a href="login">请登录</a></span>
+            <span><a href="register">免费注册</a></span>
+        <span class="pull-right">
+            <a href="#" id="order" class="glyphicon glyphicon-user">我的订单</a>
+            <a href="#" id="cart" class="glyphicon glyphicon-shopping-cart">购物车<span id="totalNum"></span>件</a>
+        </span>
+    </div>
+    <div class="logoAndSearch">
+        <div class="logo pull-left">
+            <img src="images/site/logo.gif" alt="">
+        </div>
+        <div class="search pull-right">
+            <input type="text" class="searchInput" placeholder="小米9Pro 5G MacBook Pro">
+            <button type="button" class="glyphicon glyphicon-search searchBtn">搜索</button>
+        </div>
+    </div>
+    <div id="carousel-example-generic container" class="carousel slide container" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+        </ol>
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <img src="images/site/lunbo1.jpg">
+            </div>
+            <div class="item">
+                <img src="images/site/lunbo2.jpg">
+            </div>
+            <div class="item">
+                <img src="images/site/lunbo3.jpg">
+            </div>
+        </div>
+    </div>
+    <div class="Content">
+        <div class="eachCategoryDiv" th:each="c : ${cs}">
+            <div class="left-mark"></div>
+            <span class="categoryName" th:text="${c.name}"></span>
+            <!--<div class="productItem" th:each="p : ${c.product}">-->
+                <!--<div th:text=""></div>-->
+            <!--</div>-->
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
