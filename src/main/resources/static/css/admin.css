@@ -6,7 +6,6 @@ div.formDiv{
 
 body.bgImage{
 
-    /*background: url("../../../webapp/images/site/bg.jpg") no-repeat;*/
     background: url("../images/site/bg.jpeg") no-repeat;
     background-size: cover;
 }

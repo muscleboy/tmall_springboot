@@ -1,9 +1,31 @@
 package xyz.bugcoder.bean;
 
+import java.util.List;
+
 public class Category {
     private Integer id;
 
     private String name;
+
+    // 非数据库字段
+    private List<Product> products;
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", products=" + products +
+                '}';
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
 
     public Integer getId() {
         return id;
@@ -15,14 +37,6 @@ public class Category {
 
     public String getName() {
         return name;
-    }
-
-    @Override
-    public String toString() {
-        return "Category{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
     }
 
     public void setName(String name) {

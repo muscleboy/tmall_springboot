@@ -54,6 +54,7 @@ public class ProductServiceImpl implements ProductService {
 
         Product p = productMapper.selectByPrimaryKey(id);
         setCategory(p);
+        setProductImage(p);
 
         return p;
     }
@@ -63,9 +64,9 @@ public class ProductServiceImpl implements ProductService {
     public void setProductImage(Product p){
 
         List<ProductImage> pis = productImageService.listSingleImages(p.getId());
-        if (pis != null){
+        if (!pis.isEmpty()){
 
-            p.setProductImage(pis.get(1));
+            p.setProductImage(pis.get(0));
         }
     }
 
@@ -85,6 +86,7 @@ public class ProductServiceImpl implements ProductService {
         example.setOrderByClause("id desc");
         List result = productMapper.selectByExample(example);
         setCategory(result);
+        setProductImage(result);
 
         return result;
     }
@@ -109,7 +111,7 @@ public class ProductServiceImpl implements ProductService {
     public void fill(Category c) {
 
         List<Product> ps = list(c.getId());
-        setCategory(ps);
+        c.setProducts(ps);
     }
 
     @Override

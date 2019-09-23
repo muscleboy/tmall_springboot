@@ -46,12 +46,30 @@
         </div>
     </div>
     <div class="Content">
-        <div class="eachCategoryDiv" th:each="c : ${cs}">
-            <div class="left-mark"></div>
-            <span class="categoryName" th:text="${c.name}"></span>
-            <!--<div class="productItem" th:each="p : ${c.product}">-->
-                <!--<div th:text=""></div>-->
-            <!--</div>-->
+        <!--所有分类-->
+        <div class="homepageCategoryProduct" th:each="c : ${cs}">
+            <!--每一个分类-->
+            <div class="eachCategoryOfProducts">
+                <div class="left-mark"></div>
+                <span class="categoryName" th:text="${c.name}"></span>
+                <br>
+                <!--每一个分类的产品-->
+                <div class="productItem" th:each="p : ${c.products}">
+                    <a th:href="'foreproduct?pid='+${p.id}">
+                        <!--EL表达式拼接-->
+                        <img th:src="'images/productSingle/'+${p.productImage.id}+'.jpg'" class="productItemImg">
+                    </a>
+                    <a th:href="'foreproduct?pid='+${p.id}">
+                        <span class="productName" th:text="${p.name}"></span>
+                    </a>
+                    <br>
+                    <span class="productPrice" th:text="${p.originalPrice}"></span>
+                </div>
+                <div style="clear: both"></div>
+            </div>
+        </div>
+        <div class="endImg">
+            <img src="images/site/end.png">
         </div>
     </div>
 </div>

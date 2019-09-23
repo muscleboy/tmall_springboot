@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import xyz.bugcoder.bean.Category;
 import xyz.bugcoder.service.CategoryService;
+import xyz.bugcoder.service.ProductImageService;
 import xyz.bugcoder.service.ProductService;
 
 import java.util.List;
@@ -23,6 +24,8 @@ public class ForePageController {
     CategoryService categoryService;
     @Autowired
     ProductService productService;
+    @Autowired
+    ProductImageService productImageService;
 
     @RequestMapping("/forehome")
     public String home(Model m){

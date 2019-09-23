@@ -32,6 +32,12 @@ button.searchBtn{
     color: black;
 }
 
+div.Content{
+
+    width: 1140px;
+    margin: 0 auto;
+}
+
 div.left-mark {
 
     display: inline-block;
@@ -48,3 +54,52 @@ span.categoryName{
     font-size: 18px;
     font-weight: bold;
 }
+
+div.eachCategoryOfProducts{
+
+    margin: 0 0 30px 0;
+}
+
+div.productItem:hover{
+
+    border: 1px gray solid;
+}
+
+div.productItem{
+
+    width: 189px;
+    height: 285px;
+    border: 1px solid white;
+    background-color: white;
+    margin: 10px 15px;
+    float: right;
+    cursor: pointer;
+}
+
+img.productItemImg{
+
+    width: 189px;
+    height: 200px;
+}
+
+div.homepageCategoryProduct{
+
+    background-color: #F5F5F5;
+    padding: 50px 10px 10px 10px;
+    margin: 0 auto;
+}
+
+div.endImg{
+
+    text-align: center;
+    background-color: #F5F5F5;
+}
+
+span.productPrice{
+
+    font-weight: bold;
+    color: #c9302c;
+    margin-left: 60px;
+}
+
+
