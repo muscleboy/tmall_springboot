@@ -4,10 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import xyz.bugcoder.bean.Category;
-import xyz.bugcoder.service.CategoryService;
-import xyz.bugcoder.service.ProductImageService;
-import xyz.bugcoder.service.ProductService;
+import xyz.bugcoder.bean.*;
+import xyz.bugcoder.service.*;
 
 import java.util.List;
 
@@ -26,6 +24,12 @@ public class ForePageController {
     ProductService productService;
     @Autowired
     ProductImageService productImageService;
+    @Autowired
+    ReviewService reviewService;
+    @Autowired
+    PropertyService propertyService;
+    @Autowired
+    PropertyValueService propertyValueService;
 
     @RequestMapping("/forehome")
     public String home(Model m){
@@ -41,6 +45,24 @@ public class ForePageController {
         return "fore/home";
     }
 
+    @RequestMapping("/foreproduct")
+    public String foreproduct(int pid, Model m){
 
+        Product p = productService.get(pid);
+        List<ProductImage> singleImages = productImageService.listSingleImages(pid);
+        List<ProductImage> detailImages = productImageService.listDetailImages(pid);
+        List<Review> rs = reviewService.list(pid);
+        List<Property> pts = propertyService.listByCid(p.getCid());
+        List<PropertyValue> pvs = propertyValueService.list(pid);
+
+        m.addAttribute("p", p);
+        m.addAttribute("singleImages", singleImages);
+        m.addAttribute("detailImages", detailImages);
+        m.addAttribute("rs", rs);
+        m.addAttribute("pts", pts);
+        m.addAttribute("pvs", pvs);
+
+        return "fore/product";
+    }
 
 }

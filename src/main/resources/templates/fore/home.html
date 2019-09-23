@@ -5,24 +5,29 @@
 <head th:include="admin/resources.html :: resources">
 </head>
 <body>
-<div class="navbar container-fluid" th:fragment="navbar">
-    <div class="navbar">
-        <span> <a href="forehome" class="glyphicon glyphicon-home">天猫首页</a> </span>
+<div class="m-container">
+    <!--<div th:replace="include/navbarAndSearch.html :: navbarAndSearch"></div>-->
+    <!--<div th:replace="include/carousel.html :: carousel"></div>-->
+    <!--<div th:replace="include/category.html :: category"></div>-->
+    <div class="navbarAndSearch" th:fragment="navbarAndSearch">
+        <div class="navbar">
+            <span> <a href="forehome" class="glyphicon glyphicon-home">天猫首页</a> </span>
             <span>喵，欢迎来天猫</span>
             <span><a href="login">请登录</a></span>
             <span><a href="register">免费注册</a></span>
-        <span class="pull-right">
+            <span class="pull-right">
             <a href="#" id="order" class="glyphicon glyphicon-user">我的订单</a>
             <a href="#" id="cart" class="glyphicon glyphicon-shopping-cart">购物车<span id="totalNum"></span>件</a>
         </span>
-    </div>
-    <div class="logoAndSearch">
-        <div class="logo pull-left">
-            <img src="images/site/logo.gif" alt="">
         </div>
-        <div class="search pull-right">
-            <input type="text" class="searchInput" placeholder="小米9Pro 5G MacBook Pro">
-            <button type="button" class="glyphicon glyphicon-search searchBtn">搜索</button>
+        <div class="logoAndSearch">
+            <div class="logo pull-left">
+                <img src="images/site/logo.gif" alt="">
+            </div>
+            <div class="search pull-right">
+                <input type="text" class="searchInput" placeholder="小米9Pro 5G MacBook Pro">
+                <button type="button" class="glyphicon glyphicon-search searchBtn">搜索</button>
+            </div>
         </div>
     </div>
     <div id="carousel-example-generic container" class="carousel slide container" data-ride="carousel">
@@ -72,7 +77,16 @@
             <img src="images/site/end.png">
         </div>
     </div>
+    <div class="ensureImgDiv">
+        <img src="images/site/ensure.png" alt="">
+    </div>
+    <div class="footer" th:fragment="footer">
+        <ul>
+            <p>个人博客: <a href="https://bugcoder.xyz/">bugcoder.xyz</a></p>
+            <p>作者详情: <a href="aboutMe.jsp">aboutMe</a></p>
+            <p>Powered By SpringBoot</p>
+        </ul>
+    </div>
 </div>
-
 </body>
 </html>

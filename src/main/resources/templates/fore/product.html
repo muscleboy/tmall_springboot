@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:c="http://www.w3.org/1999/XSL/Transform">
+<!--include admin/user.html文件下的 fragment(resources)片段-->
+<head th:include="admin/resources.html :: resources">
+</head>
+
+<script type="text/javascript">
+
+    $(function () {
+
+        // 购买数量
+        var amount = $("input[id='amount']").val();
+        $("#addBtn").click(function () {
+
+            if (amount >= 3){
+
+                alert("每个账号最多只能购买3件哦");
+                return false;
+            }
+            amount ++;
+            // 改变的是value值，而不是placeholder
+            $("input[id='amount']").attr("value", amount);
+        });
+        $("#reduceBtn").click(function () {
+
+
+            if (amount <= 1){
+
+                alert("至少需要购买一件哦");
+                return false;
+            }
+
+            amount --;
+            $("input[id='amount']").attr("value", amount);
+        });
+
+        // hover小图片变大图
+        $(".showImg").hover(function () {
+
+            var src = $(this).attr("src");
+            $(".productBigImg").attr("src", src);
+        });
+
+
+        // 显示产品图片详情的时候，隐藏 累计评价 div
+        // 反之....
+        $("div.productReviewDiv").hide();
+        $("a.productReviewLink").click(function () {
+
+            // $(this).css("color", "#C40000");
+            // $("a.productDetailLink").css("color", "#333");
+            $(".productReviewDiv").show();
+            $(".productDetailImgDiv").hide();
+        });
+        $("a.productDetailLink").click(function () {
+
+            // $(this).css("color", "#C40000");
+            // $("a.productReviewLink").css("color", "#333");
+            $(".productDetailImgDiv").show();
+            $(".productReviewDiv").hide();
+        });
+    });
+
+</script>
+
+<body>
+<div class="m-container">
+	<div th:replace="fore/home.html :: navbarAndSearch"></div>
+	<div class="productImgDiv pull-left">
+		<div class="bigImg">
+			<img th:src="'images/productSingle/'+${p.productImage.id}+'.jpg'" class="productBigImg">
+		</div>
+		<div class="showImg">
+			<img class="showImg" th:each="si : ${singleImages}" th:src="'images/productSingle/'+${si.id}+'.jpg'">
+		</div>
+	</div>
+	<div class="productDetailDiv pull-right">
+		<div class="productTitle" th:text="${p.name}"></div>
+		<div class="productSubTitle" th:text="${p.subTitle}"></div>
+		<div class="panel">
+			<div class="panel-heading">
+				<span class="barginFont">聚划算</span>此商品正在参加聚划算,<span class="barginTime">1天10小时</span>后开始.
+			</div>
+			<div class="panel-body">
+				<div>
+					<span>原价：</span>
+					<span class="originalPrice" th:text="${p.originalPrice}"></span>
+				</div>
+				<div>
+					<span>促销价：</span>
+					<span class="promotePrice" th:text="${p.promotePrice}"></span>
+				</div>
+			</div>
+		</div>
+		<div class="soldAndReviewDiv">
+			<div class="soldDiv pull-left">
+				销量：<span class="sold">20</span>
+			</div>
+			<div class="reviewDiv pull-right">
+				评价：<span class="review" th:text="${rs.size()}"></span>
+			</div>
+		</div>
+		<div class="mountDiv">
+			<div class="mountInput">
+                <span class="decrease">
+                    <button id="reduceBtn">-</button>
+                </span>
+				数量：<input type="number" id="amount" value="1" >件
+				<span class="increase">
+                    <button id="addBtn">+</button>
+                </span>
+				<span>库存还有 <span th:text="${p.stock}"></span> 件</span>
+			</div>
+		</div>
+		<div class="serviceCommentDiv">
+			<span class="serviceComment">服务承诺</span>
+			<span class="serviceComment">正品保障</span>
+			<span class="serviceComment">极速退款</span>
+			<span class="serviceComment">赠运费险</span>
+			<span class="serviceComment">七天无理由退货</span>
+		</div>
+		<div class="buyDiv">
+			<a id="buyNowLink" href="forebuyone?pid=${p.id}">
+				<button type="button" class="buyNowBtn" id="buyNowBtn" data-toggle="modal"
+						data-target="#loginModal">立即购买
+				</button>
+			</a>
+			<a id="addToCartLink" href="#">
+				<button class="addToCartBtn" th:pid="${p.id}" type="button">
+					<span class="glyphicon glyphicon-shopping-cart"></span>
+					加入购物车
+				</button>
+			</a>
+		</div>
+	</div>
+	<div class="productDetailImgDiv">
+		<div class="productDetailAndReviewLink">
+			<a class="productDetailLink selected" href="#">产品详情</a>
+			<a class="productReviewLink" href="#">累计评价 <span th:text="${rs.size()}"></span></a>
+		</div>
+		<div class="productPropertyDiv">
+			<br>
+			<div class="productPropertyHeader">产品参数:</div>
+			<div class="productPropertyList">
+				<div class="productProperty pull-left" th:each="pv : ${pvs}">
+					<span th:text="${pv.property.name}">:&nbsp;&nbsp;</span> <span th:text="${pv.value}"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+				</div>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div class="productDetailImg">
+			<img th:each="di : ${detailImages}" th:src="'images/productDetail/'+${di.id}+'.jpg'" width="700px">
+		</div>
+	</div>
+	<div class="footer" th:replace="fore/home.html :: footer"></div>
+</div>
+
+</body>
+</html>
