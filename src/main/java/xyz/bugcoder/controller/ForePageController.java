@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import xyz.bugcoder.bean.*;
 import xyz.bugcoder.service.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -30,21 +32,22 @@ public class ForePageController {
     PropertyService propertyService;
     @Autowired
     PropertyValueService propertyValueService;
+    @Autowired
+    UserService userService;
 
+    // 首页
     @RequestMapping("/forehome")
     public String home(Model m){
 
         List<Category> cs = categoryService.list();
         productService.fill(cs);
-        for (Category c : cs) {
 
-            System.out.println(c);
-        }
         m.addAttribute("cs", cs);
 
         return "fore/home";
     }
 
+    // 产品页
     @RequestMapping("/foreproduct")
     public String foreproduct(int pid, Model m){
 
@@ -63,6 +66,52 @@ public class ForePageController {
         m.addAttribute("pvs", pvs);
 
         return "fore/product";
+    }
+
+    @RequestMapping("/to_register")
+    public String to_register(){
+
+        return "fore/register";
+    }
+
+    @RequestMapping("register")
+    public String register(Model model, User user){
+
+        String name = user.getName();
+        user.setName(name);
+        if (userService.isExist(name)){
+
+            String msg = "该用户名已被使用，请换一个";
+            model.addAttribute("msg", msg);
+            model.addAttribute("user", null);
+            return "fore/register";
+        }
+
+        userService.add(user);
+        return "redirect:to_login";
+    }
+
+    @RequestMapping("/to_login")
+    public String regito_loginster(){
+
+        return "fore/login";
+    }
+
+    @RequestMapping("login")
+    public String login(@RequestParam("name") String name,
+                        @RequestParam("password") String password,
+                        Model model, HttpSession session){
+
+        User user = userService.get(name, password);
+        String msg = "账号或者密码错误";
+        if (user == null){
+
+            model.addAttribute("msg", msg);
+            return "redirect:to_login";
+        }
+
+        session.setAttribute("user", user);
+        return "redirect:forehome";
     }
 
 }

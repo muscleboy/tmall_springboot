@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:c="http://www.w3.org/1999/XSL/Transform">
+<!--include admin/user.html文件下的 fragment(resources)片段-->
+<head th:include="admin/resources.html :: resources">
+	<title>登录</title>
+</head>
+<body>
+
+<div class="m-container">
+	<div th:replace="fore/home.html :: navbarAndSearch"></div>
+	<div class="loginTableDiv">
+		<img src="../images/site/loginbg.jpg" class="loginBgImg">
+		<div class="loginForm">
+			<div class="loginErrorMsg">
+				<span class="errorMsg"></span>
+			</div>
+			<form class="loginForm" action="login" method="post">
+				<table align="center">
+					<tr>
+						<td class="loginTips">账户登录</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>用户名<span class="glyphicon glyphicon-user"></span></td>
+						<td class="loginUsername"><input type="text" id="username" name="name"></td>
+					</tr>
+					<tr>
+						<td>密码<span class="glyphicon glyphicon-lock"></span></td>
+						<td class="loginPassword"><input type="password" id="password" name="password"></td>
+					</tr>
+					<tr>
+						<!--原button.submitBtn和modal页面一致，导致登录后刷新当前页面-->
+						<td colspan="2"><button type="submit" class="loginBtn">登录</button></td>
+					</tr>
+				</table>
+				<br>
+				<span class="text-danger">请不要输入真实的天猫账号密码</span> <br>
+				<div class="forgetPwdAndRegisterLink">
+					<a href="#" class="forgetPwdLink">忘记密码</a>
+					<a href="to_register" class="pull-right registerLink">免费注册</a>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="footer" th:replace="fore/home.html :: footer"></div>
+</div>
+
+</body>
+</html>

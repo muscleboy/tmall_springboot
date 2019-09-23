@@ -341,3 +341,88 @@ div.footer{
     text-align: center;
     margin-top: 50px;
 }
+
+/*登录注册*/
+div.registerDiv{
+
+    width: 700px;
+    height: 500px;
+    border: 2px lightgray solid;
+    margin: 180px auto 50px auto;
+}
+
+div.registerErrorInfo{
+
+    width: 698px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background: #ebccd1;
+    color: #c4352f;
+}
+
+table.registerTable{
+
+    margin-top: 40px;
+}
+
+button.submitBtn{
+
+    width: 150px;
+    height: 40px;
+    background-color: #C40000;
+    text-decoration: none;
+    color: white;
+}
+
+button.loginBtn{
+
+    width: 150px;
+    height: 40px;
+    background-color: #C40000;
+    text-decoration: none;
+    color: white;
+}
+
+td.registerTips{
+
+    font-weight: bold;
+    margin-top: 40px;
+}
+
+.registerInput{
+
+    height: 60px;
+}
+
+div.registerSucDiv{
+
+    background: #d6e9c6;
+    text-align: center;
+    margin: 20px auto;
+    height: 50px;
+    line-height: 50px;
+    font-size: 20px;
+}
+
+div.loginTableDiv{
+
+    margin: 20px auto;
+}
+
+div.loginBgImg{
+
+    width: 1000px;
+    height: 600px;
+}
+
+div.loginForm{
+
+    /*border: #C40000 2px solid;*/
+    position: absolute;
+    right: 280px;
+    top: 270px;
+    width: 350px;
+    height: 400px;
+    background: white;
+}
