@@ -7,18 +7,18 @@
 </head>
 <body>
 <div class="m-container">
-    <div class="navbarAndSearch" th:fragment="navbarAndSearch">
-        <div class="navbar">
+    <!--<div class="navbarAndSearch" th:fragment="navbarAndSearch">-->
+        <div class="navbar" th:fragment="navbar">
             <span> <a href="forehome" class="glyphicon glyphicon-home">天猫首页</a> </span>
             <span>喵，欢迎来天猫</span>
             <span><a href="to_login">请登录</a></span>
             <span><a href="to_register">免费注册</a></span>
             <span class="pull-right">
-            <a href="#" id="order" class="glyphicon glyphicon-user">我的订单</a>
-            <a href="#" id="cart" class="glyphicon glyphicon-shopping-cart">购物车<span id="totalNum"></span>件</a>
+            <a href="order" id="order" class="glyphicon glyphicon-user">我的订单</a>
+            <a href="cart" id="cart" class="glyphicon glyphicon-shopping-cart">购物车<span id="totalNum"></span>件</a>
         </span>
         </div>
-        <div class="logoAndSearch">
+        <div class="logoAndSearch" th:fragment="logoAndSearch">
             <div class="logo pull-left">
                 <img src="images/site/logo.gif" alt="">
             </div>
@@ -75,10 +75,10 @@
             <img src="images/site/end.png">
         </div>
     </div>
-    <div class="ensureImgDiv">
-        <img src="images/site/ensure.png" alt="">
-    </div>
     <div class="footer" th:fragment="footer">
+        <div class="ensureImgDiv">
+            <img src="images/site/ensure.png" alt="">
+        </div>
         <ul>
             <p>个人博客: <a href="https://bugcoder.xyz/">bugcoder.xyz</a></p>
             <p>作者详情: <a href="aboutMe.jsp">aboutMe</a></p>

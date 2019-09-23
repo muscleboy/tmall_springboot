@@ -34,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void add(Order o) {
 
-        orderMapper.insertSelective(o);
+        orderMapper.insert(o);
     }
 
     @Override
@@ -65,6 +65,21 @@ public class OrderServiceImpl implements OrderService {
         setUser(os);
         return os;
     }
+
+    @Override
+    public List<Order> listByUid(int uid) {
+
+        OrderExample example = new OrderExample();
+        example.createCriteria()
+                .andUidEqualTo(uid);
+        example.setOrderByClause("id");
+        List<Order> os = orderMapper.selectByExample(example);
+        // 哪个用户的订单
+//        orderItemService.fill(os);
+//        setUser(os);
+        return os;
+    }
+
 
     public void setUser(Order o){
 

@@ -19,6 +19,7 @@ public interface OrderService {
     void update(Order o);
     Order get(int id);
     List<Order> list();
+    List<Order> listByUid(int uid);
     // 设置订单项
 //    void fill(Order o);
 //    void fill(List<Order> o);

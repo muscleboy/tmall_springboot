@@ -66,7 +66,8 @@
 
 <body>
 <div class="m-container">
-	<div th:replace="fore/home.html :: navbarAndSearch"></div>
+	<div th:replace="fore/home.html :: navbar"></div>
+	<div th:replace="fore/home.html :: logoAndSearch"></div>
 	<div class="productImgDiv pull-left">
 		<div class="bigImg">
 			<img th:src="'images/productSingle/'+${p.productImage.id}+'.jpg'" class="productBigImg">

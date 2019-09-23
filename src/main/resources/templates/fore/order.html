@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:c="http://www.w3.org/1999/XSL/Transform">
+<!--include admin/user.html文件下的 fragment(resources)片段-->
+<head th:include="admin/resources.html :: resources">
+	<title>首页</title>
+</head>
+<body>
+
+<div class="m-container">
+	<div th:replace="fore/home.html :: navbar"></div>
+	<div th:replace="fore/home.html :: logoAndSearch"></div>
+	<div class="orderPageDiv">
+		<div class="orderTableDiv">
+			<table class="table table-bordered">
+				<thead class="orderTableBg">
+				<tr>
+					<th>宝贝</th>
+					<th>单价</th>
+					<th>数量</th>
+					<th>金额</th>
+					<th>交易操作</th>
+				</tr>
+				</thead>
+				<tbody class="orderTableTbody">
+					<tr class="orderTableTR" th:each="o : ${os}">
+						<td th:text="${#dates.format(o.createDate, 'yyyy-MM-dd HH:mm:ss')}">
+						</td>
+						<td th:text="'订单号: '+${o.orderCode}"></td>
+						<td>
+							<img src="images/site/tmallbuy.png" class="tmallbuyImg">天猫商场
+						</td>
+						<td>
+							<a class="contactMeLink" href="#">
+								<img src="images/site/wangwang.png" class="tmallbuyImg">和我联系
+							</a>
+						</td>
+						<td>
+							<a href=""><span class="glyphicon glyphicon-trash"></span></a>
+						</td>
+						<td th:each="oi : ${o.orderItemList}">
+							<div th:text="${oi.product.productImage.id}"></div>
+							<div th:text="${oi.product.name}"></div>
+						</td>
+						<!--<td>-->
+							<!--<tr th:each="oi : ${o.OrderItem}"></tr>-->
+						<!--</td>-->
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>
