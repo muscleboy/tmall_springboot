@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:c="http://www.w3.org/1999/XSL/Transform">
+<!--include admin/user.html文件下的 fragment(resources)片段-->
+<head th:include="admin/resources.html :: resources">
+    <title>首页</title>
+</head>
+<body>
+
+<div class="m-container">
+    <div th:replace="fore/home.html :: navbar"></div>
+    <div th:replace="fore/home.html :: logoAndSearch"></div>
+    <div class="buyNowDiv">
+        <form action="forecreateOrder" method="post">
+            <div class="receiptInfo">
+                <div class="receiptInfoHeader">
+                    <h4>请填写收货信息</h4> <br>
+                    <div>
+                        &nbsp;&nbsp;&nbsp;&nbsp;详细地址<span class="mustInputMark">*</span>: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<textarea name="address" id="address" cols="30" rows="3" placeholder="请如实填写您的详细收货地址"></textarea>
+                    </div>
+                    <br>
+                    <div>
+                        &nbsp;&nbsp;&nbsp;&nbsp;邮政编码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<textarea name="post" placeholder="邮编，若不详，请填000000" id="post" cols="30" rows="1"></textarea> <br>
+                    </div>
+                    <div>
+                        &nbsp;&nbsp;&nbsp;&nbsp;收货人姓名<span class="mustInputMark">*</span>: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<textarea placeholder="收货人" name="receiver" id="receiver" cols="30" rows="1"></textarea>
+                    </div>
+                    <br>
+                    <div>
+                        &nbsp;&nbsp;&nbsp;&nbsp;手机号<span class="mustInputMark">*</span>: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<textarea name="mobile" placeholder="收货手机号" id="mobile" cols="30" rows="1"></textarea>
+                    </div>
+                    <br>
+                </div>
+            </div>
+            <div class="confirmOrderInfo">
+                <table class="table table-striped">
+                    <th>店铺:天猫旗舰店</th>
+                    <th>单价</th>
+                    <th>数量</th>
+                    <th>小计</th>
+                    <tr th:each="oi : ${ois}">
+                        <td>
+                            <div>
+                                <img class="orderTbodyImg"
+                                     th:text="${oi.product.name}"
+                                     th:src="'images/productSingle/'+${oi.product.productImage.id}+'.jpg'">
+                                <!--<span>  </span>-->
+                            </div>
+                        </td>
+                        <td th:text="${oi.product.promotePrice}"></td>
+                        <td th:text="${oi.number}"></td>
+                        <td class="orderItemMoney" th:oiid="${oi.id}">
+                        </td>
+                        </tr>
+                </table>
+            </div>
+            <div class="pull-right">
+                实付款：￥<span class="truePay"></span>
+                <a href="forecreateOrder">
+                    <button class="submitOrder" disabled="disabled">提交订单</button>
+                </a>
+            </div>
+        </form>
+    </div>
+    <div class="footer" th:replace="fore/home.html :: footer"></div>
+</div>
+
+</body>
+</html>

@@ -122,7 +122,7 @@
 			<span class="serviceComment">七天无理由退货</span>
 		</div>
 		<div class="buyDiv">
-			<a id="buyNowLink" href="forebuyone?pid=${p.id}">
+			<a id="buyNowLink" th:href="'foreBuyNow?pid='+${p.id}">
 				<button type="button" class="buyNowBtn" id="buyNowBtn" data-toggle="modal"
 						data-target="#loginModal">立即购买
 				</button>

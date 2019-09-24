@@ -75,6 +75,7 @@ public class ForeController {
         return "fore/product";
     }
 
+    // 注册
     @RequestMapping("/register")
     public String register(Model model, User user){
 
@@ -92,6 +93,7 @@ public class ForeController {
         return "redirect:to_login";
     }
 
+    // 登录
     @RequestMapping("/login")
     public String login(@RequestParam("name") String name,
                         @RequestParam("password") String password,
@@ -109,6 +111,7 @@ public class ForeController {
         return "redirect:forehome";
     }
 
+    // 我的订单
     @RequestMapping("/order")
     public String order(HttpSession session, Model model){
 
@@ -131,6 +134,7 @@ public class ForeController {
         return "fore/order";
     }
 
+    // 我的购物车
     @RequestMapping("/cart")
     public String cart(HttpSession session, Model m){
 
@@ -145,6 +149,23 @@ public class ForeController {
         m.addAttribute("ois", ois);
 
         return "fore/cart";
+    }
+
+    // 立即购买
+    @RequestMapping("/foreBuyNow")
+    public String buyNow(HttpSession session, Model m, int pid){
+
+        // 获取用户, 未登录就重定向到登录页面
+        User user = (User) session.getAttribute("user");
+        if (user == null){
+
+            return "redirect:to_login";
+        }
+
+        List<OrderItem> ois = orderItemService.listByUser(user.getId());
+        m.addAttribute("ois", ois);
+
+        return "fore/buyNow";
     }
 
 }
