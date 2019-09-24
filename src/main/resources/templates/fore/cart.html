@@ -2,10 +2,117 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:c="http://www.w3.org/1999/XSL/Transform">
 <!--include admin/user.html文件下的 fragment(resources)片段-->
-<head th:include="admin/resources.html :: resources">
+<head th:replace="admin/resources.html :: resources">
     <title>首页</title>
 </head>
 <body>
+
+<script type="text/javascript">
+    
+    $(function () {
+    
+        // 购物车总数量
+        var cartItemTotalAmount = 0;
+        // 购物车总价钱
+        var cartItemTotalMoney = 0;
+        
+        $("#chooseAll").click(function () {
+            
+            var cartItemTotalMoney = 0;
+            // 一开始就是false，但是点击了之后就是true了
+            if (this.checked == true) {
+                
+                $("input.cartTableItemCheckbox").attr("checked", true);
+                // 可以获取到3个CheckBox
+                var cartItemTotalAmount = $("input.cartTableItemCheckbox").length;
+                $(".cartItemTotalAmount").text(cartItemTotalAmount);
+                $(".cartTableItemSumPrice").each(function () {
+                    
+                    var pid = $(this).attr("pid");
+                    // val获取不到, 只能通过text获取，然后正则解决格式问题,
+                    // 最后new Number转换成数字类型
+                    var price = $(".cartTableItemSumPrice[pid=" + pid + "]").text();
+                    // 去掉，￥
+                    price = price.replace(/,/g, "");
+                    price = price.replace(/￥/g, "");
+                    // 转换成数字类型
+                    cartItemTotalMoney += new Number(price);
+                    cartItemTotalMoney = (cartItemTotalMoney * 100)/100;
+                    // $("tr").css("background-color","#FFF8E1");
+                });
+                $(".cartItemTotalMoney").text(cartItemTotalMoney);
+                // alert(cartItemTotalMoney);
+            }
+            else {
+                
+                $("input.cartTableItemCheckbox").attr("checked", false);
+                $(".cartItemTotalAmount").text(0);
+                $(".cartItemTotalMoney").text(0);
+                // $("tr").css("background-color","#fff");
+            }
+        });
+        
+        $("input.cartTableItemCheckbox").click(function () {
+            
+            var pid = $(this).attr("pid");
+            alert(pid);
+            // 打钩时，加上当前的数量，价钱
+            if (this.checked == true){
+                
+                cartItemTotalAmount += 1;
+                var price = $(".cartTableItemSumPrice[pid=" + pid + "]").text();
+                
+                // 去掉，￥
+                price = price.replace(/,/g, "");
+                price = price.replace(/￥/g, "");
+                cartItemTotalMoney += new Number(price);
+                cartItemTotalMoney = (cartItemTotalMoney * 100)/100;
+                $(this).parents("tr").css("background-color","#FFF8E1");
+                $(".cartItemTotalAmount").text(cartItemTotalAmount);
+                $(".cartItemTotalMoney").text(cartItemTotalMoney);
+            }else {
+                
+                // 取消时，减掉当前的数量，价钱
+                if (cartItemTotalAmount >= 1){
+                    
+                    cartItemTotalAmount -= 1;
+                    var price = $(".cartTableItemSumPrice[pid=" + pid + "]").text();
+                    
+                    // 去掉，￥
+                    price = price.replace(/,/g, "");
+                    price = price.replace(/￥/g, "");
+                    cartItemTotalMoney -= new Number(price);
+                    cartItemTotalMoney = (cartItemTotalMoney * 100)/100;
+                    $(".cartItemTotalAmount").text(cartItemTotalAmount);
+                    $(".cartItemTotalMoney").text(cartItemTotalMoney);
+                }
+            }
+        });
+        
+        // 提交订单，跳转到结算页面forebuy
+        $(".createOrderBtn").click(function () {
+            
+            var param = "";
+            $("input.cartTableItemCheckbox").each(function () {
+                
+                // 这里用this.checked, 而不是$(this).checked
+                if (this.checked == true){
+                    
+                    var oiid = $(this).attr("oiid");
+                    // &oiid=1&oiid=2字符串拼接，springMVC自动封装成String[] {"1", "2"}
+                    param += "&oiid=" + oiid;
+                }
+            });
+            
+            // 去掉第一个的参数&，因为第一个参数为?
+            param = param.substring(1);
+            location.href = "forebuy?" + param;
+        });
+        
+    });
+    
+
+</script>
 
 <div class="m-container">
     <div th:replace="fore/home.html :: navbar"></div>
@@ -14,7 +121,7 @@
         <div class="cartTableDiv">
             <table class="table table-bordered">
                 <tr class="bg-info">
-                    <th><input type="checkbox"> 全选</th>
+                    <th><input type="checkbox" id="chooseAll"> 全选</th>
                     <th>商品信息</th>
                     <th>单价</th>
                     <th>数量</th>
@@ -23,13 +130,13 @@
                 </tr>
                 <tr th:each="oi : ${ois}">
                     <td>
-                        <input type="checkbox">
+                        <input type="checkbox" class="cartTableItemCheckbox" th:pid="${oi.product.id}">
                         <img th:src="'images/productSingle/'+${oi.product.productImage.id}+'.jpg'" width="100" height="100">
                     </td>
                     <td th:text="${oi.product.name}" th:href="'foreproduct?pid='+${oi.product.id}"></td>
                     <td th:text="${oi.product.originalPrice}"></td>
-                    <td th:text="${oi.number}"></td>
-                    <td th:text="${oi.number * oi.product.originalPrice}"></td>
+                    <td th:text="${oi.number}" class="cartItemTotalAmount" th:pid="${oi.product.id}"></td>
+                    <td th:text="${oi.number * oi.product.originalPrice}" th:pid="${oi.product.id}" class="cartTableItemSumPrice"></td>
                     <td>删除</td>
                 </tr>
             </table>
