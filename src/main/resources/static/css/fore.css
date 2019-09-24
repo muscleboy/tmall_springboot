@@ -111,7 +111,7 @@ span.productPrice{
 div.productImgDiv{
 
     margin-top: 120px;
-    margin-left: -220px;
+    margin-left: -240px;
 }
 
 img.productBigImg{
@@ -143,6 +143,8 @@ img.showImg:hover{
 
 div.productDetailDiv{
 
+    /*设置上宽度不会向下挤*/
+    width: 700px;
     margin-top: 40px;
     margin-right: 30px;
 }

@@ -1,5 +1,6 @@
 package xyz.bugcoder.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -74,7 +75,7 @@ public class ForeController {
         return "fore/product";
     }
 
-    @RequestMapping("register")
+    @RequestMapping("/register")
     public String register(Model model, User user){
 
         String name = user.getName();
@@ -91,7 +92,7 @@ public class ForeController {
         return "redirect:to_login";
     }
 
-    @RequestMapping("login")
+    @RequestMapping("/login")
     public String login(@RequestParam("name") String name,
                         @RequestParam("password") String password,
                         Model model, HttpSession session){
@@ -108,11 +109,15 @@ public class ForeController {
         return "redirect:forehome";
     }
 
-    @RequestMapping("order")
+    @RequestMapping("/order")
     public String order(HttpSession session, Model model){
 
         // 获取用户
         User user = (User) session.getAttribute("user");
+        if (user == null){
+
+            return "redirect:to_login";
+        }
         // 通过uid和delete获取orders
         List<Order> os = orderService.listByUid(user.getId());
         // 为订单填充订单项

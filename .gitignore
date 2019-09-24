@@ -33,6 +33,7 @@ build/
 ### mvn ###
 .mvn/
 mvn*
+.DS_*
 
 ###  图片  ###
 *.jpg
