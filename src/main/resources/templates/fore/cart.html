@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:c="http://www.w3.org/1999/XSL/Transform">
+<!--include admin/user.html文件下的 fragment(resources)片段-->
+<head th:include="admin/resources.html :: resources">
+    <title>首页</title>
+</head>
+<body>
+
+<div class="m-container">
+    <div th:replace="fore/home.html :: navbar"></div>
+    <div th:replace="fore/home.html :: logoAndSearch"></div>
+    <div class="cartDiv">
+        <div class="cartTableDiv">
+            <table class="table table-bordered">
+                <tr class="bg-info">
+                    <th><input type="checkbox"> 全选</th>
+                    <th>商品信息</th>
+                    <th>单价</th>
+                    <th>数量</th>
+                    <th>金额</th>
+                    <th>操作</th>
+                </tr>
+                <tr th:each="oi : ${ois}">
+                    <td>
+                        <input type="checkbox">
+                        <img th:src="'images/productSingle/'+${oi.product.productImage.id}+'.jpg'" width="100" height="100">
+                    </td>
+                    <td th:text="${oi.product.name}" th:href="'foreproduct?pid='+${oi.product.id}"></td>
+                    <td th:text="${oi.product.originalPrice}"></td>
+                    <td th:text="${oi.number}"></td>
+                    <td th:text="${oi.number * oi.product.originalPrice}"></td>
+                    <td>删除</td>
+                </tr>
+            </table>
+        </div>
+        <div class="creatOrderDiv pull-right">
+            <div>
+            <span class="createOrderSpan">
+                已选商品 <span class="cartItemTotalAmount">0</span>件,
+                合计: <span class="cartItemTotalMoney">￥0</span>
+                <button type="submit" class="createOrderBtn">结算</button>
+            </span>
+            </div>
+        </div>
+    </div>
+    <div class="footer" th:replace="fore/home.html :: footer"></div>
+</div>
+</body>
+</html>

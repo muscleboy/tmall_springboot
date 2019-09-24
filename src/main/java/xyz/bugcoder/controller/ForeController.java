@@ -112,7 +112,7 @@ public class ForeController {
     @RequestMapping("/order")
     public String order(HttpSession session, Model model){
 
-        // 获取用户
+        // 获取用户, 未登录就重定向到登录页面
         User user = (User) session.getAttribute("user");
         if (user == null){
 
@@ -129,6 +129,22 @@ public class ForeController {
         model.addAttribute("os", os);
 
         return "fore/order";
+    }
+
+    @RequestMapping("/cart")
+    public String cart(HttpSession session, Model m){
+
+        // 获取用户, 未登录就重定向到登录页面
+        User user = (User) session.getAttribute("user");
+        if (user == null){
+
+            return "redirect:to_login";
+        }
+
+        List<OrderItem> ois = orderItemService.listByUser(user.getId());
+        m.addAttribute("ois", ois);
+
+        return "fore/cart";
     }
 
 }

@@ -80,6 +80,19 @@ public class OrderServiceImpl implements OrderService {
         return os;
     }
 
+    // 根据UID，不包含excludeStatus，获取到订单，实际上就是购物车
+//    @Override
+//    public List<Order> listByUidAndStatus(int uid, String excludeStatus) {
+//
+//        OrderExample example = new OrderExample();
+//        example.createCriteria()
+//                .andUidEqualTo(uid)
+//                .andStatusNotEqualTo(excludeStatus);
+//        example.setOrderByClause("id");
+//        List<Order> os = orderMapper.selectByExample(example);
+//        return os;
+//    }
+
 
     public void setUser(Order o){
 

@@ -22,6 +22,7 @@
 					<th>交易操作</th>
 				</tr>
 				</thead>
+				<!--外层循环写在tr里的话，会报错orderItemList 为Null-->
 				<tbody class="orderTableTbody" th:each="o : ${os}">
 					<tr class="orderTableTR" >
 						<td th:text="${#dates.format(o.createDate, 'yyyy-MM-dd HH:mm:ss')}">

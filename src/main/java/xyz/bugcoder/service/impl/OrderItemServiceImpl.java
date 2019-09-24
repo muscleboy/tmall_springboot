@@ -61,6 +61,20 @@ public class OrderItemServiceImpl implements OrderItemService {
         return orderItemMapper.selectByExample(example);
     }
 
+    // 根据UID和空的Oid获取订单项，实际上就是购物车
+    @Override
+    public List<OrderItem> listByUser(int uid) {
+
+        OrderItemExample example = new OrderItemExample();
+        example.createCriteria()
+                .andUidEqualTo(uid)
+                .andOidIsNull();
+        example.setOrderByClause("id desc");
+        List<OrderItem> ois = orderItemMapper.selectByExample(example);
+        setProduct(ois);
+        return ois;
+    }
+
     // 设置订单的总价钱，总数量，订单项(设置产品)
     @Override
     public void fill(Order o) {

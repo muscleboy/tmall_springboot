@@ -453,6 +453,7 @@ div.orderType a:hover{
     color: #C40000;
 }
 
+/*我的订单*/
 div.orderPageDiv{
 
     width: 1200px;
@@ -480,4 +481,26 @@ img.orderProductImg{
 tr.orderTableTR{
 
     background-color: #F5F5F5;
+}
+
+/*购物车*/
+div.orderPageDiv{
+
+    width: 1200px;
+    margin: 10px auto;
+}
+
+span.createOrderSpan{
+
+    line-height: 50px;
+}
+
+button.createOrderBtn{
+
+    width: 150px;
+    height: 40px;
+    background-color: #C40000;
+    text-decoration: none;
+    color: white;
+    line-height: 40px;
 }

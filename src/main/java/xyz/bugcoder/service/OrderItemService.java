@@ -20,6 +20,7 @@ public interface OrderItemService {
     void update(OrderItem oi);
     OrderItem get(int id);
     List<OrderItem> list();
+    List<OrderItem> listByUser(int uid);
 
     void fill(Order o);
     void fill(List<Order> os);
