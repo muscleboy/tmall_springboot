@@ -111,6 +111,15 @@ public class ForeController {
         return "redirect:forehome";
     }
 
+    // 注销登录
+    @RequestMapping("/to_logout")
+    public String logout(HttpSession session){
+
+        session.removeAttribute("user");
+
+        return "redirect:to_login";
+    }
+
     // 我的订单
     @RequestMapping("/order")
     public String order(HttpSession session, Model model){

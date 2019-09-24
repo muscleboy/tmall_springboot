@@ -13,7 +13,7 @@
             <span>喵，欢迎来天猫</span>
             <!--判断有没有登录，要从session里获取值-->
             <span><a href="to_login" th:if="${session.user == null}">请登录</a></span>
-            <span><a href="to_login" th:if="${session.user != null}" th:text="${session.user.name}"></a></span>
+            <span><a href="to_logout" th:if="${session.user != null}" th:text="${session.user.name}"></a></span>
             <span><a href="to_register">免费注册</a></span>
             <span class="pull-right">
             <a href="order" id="order" class="glyphicon glyphicon-user">我的订单</a>
