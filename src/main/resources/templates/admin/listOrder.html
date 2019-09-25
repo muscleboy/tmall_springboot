@@ -58,8 +58,10 @@
                         <td>{{o.deliveryDate | formatDate}}</td>
                         <td>{{o.confirmDate | formatDate}}</td>
                         <td>
-                            <button type="button" class="btn btn-primary" id="detailBtn">查看详情</button>
-                            <button type="button" class="btn btn-primary" id="deliveryBtn">发货</button>
+                            <!--todo  待开发。。-->
+                            <!--<button type="button" class="btn btn-primary" id="detailBtn">查看详情</button>-->
+                            <button type="button" class="btn btn-primary"
+                                    id="deliveryBtn" @click="delivery(o.id)">发货</button>
                         </td>
                     </tr>
                 </template>
@@ -123,6 +125,18 @@
             jumpByNumber: function(start){
                 if(start!=vue.pagination.pageNum)
                     vue.list(start);
+            },
+            // 发货
+            delivery: function (id) {
+                
+                var url = "orders/delivery/" + id;
+                axios.get(url).then(function (response) {
+                    
+                    // response.data才能获取到返回的字符串
+                    // 发货成功，刷新页面
+                    if (response.data == "success")
+                        location.reload();
+                })
             }
         }
         

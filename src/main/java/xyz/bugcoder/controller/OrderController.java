@@ -4,12 +4,14 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.bugcoder.bean.Order;
 import xyz.bugcoder.service.OrderItemService;
 import xyz.bugcoder.service.OrderService;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,6 +41,20 @@ public class OrderController {
         orderItemService.fill(os);
         PageInfo<Order> page = new PageInfo<>(os, 5);
         return page;
+    }
+
+    // 发货
+    @GetMapping("/orders/delivery/{id}")
+    public String delivery(@PathVariable(value = "id")int id){
+
+        Order o = orderService.get(id);
+        // 发货时间
+        o.setDeliveryDate(new Date());
+        // 订单状态：待收货
+        o.setStatus(OrderService.waitConfirm);
+        orderService.update(o);
+
+        return "success";
     }
 
 }
