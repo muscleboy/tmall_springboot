@@ -6,10 +6,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import xyz.bugcoder.bean.*;
 import xyz.bugcoder.service.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -111,6 +113,16 @@ public class ForeController {
         return "redirect:forehome";
     }
 
+    @RequestMapping("checkLoginAjax")
+    @ResponseBody
+    public String checkLogin(HttpSession session){
+
+        User user = (User) session.getAttribute("user");
+        if (user != null)
+            return "success";
+        return "fail";
+    }
+
     // 注销登录
     @RequestMapping("/to_logout")
     public String logout(HttpSession session){
@@ -162,7 +174,7 @@ public class ForeController {
 
     // 立即购买
     @RequestMapping("/foreBuyNow")
-    public String buyNow(HttpSession session, Model m, int pid){
+    public String buyNow(HttpSession session, Model m, int pid, int num){
 
         // 获取用户, 未登录就重定向到登录页面
         User user = (User) session.getAttribute("user");
@@ -171,10 +183,94 @@ public class ForeController {
             return "redirect:to_login";
         }
 
+        Product p = productService.get(pid);
         List<OrderItem> ois = orderItemService.listByUser(user.getId());
+        boolean found = false;
+        int oiid = 0;
+        // 遍历用户的订单项，如果找到就数量+1，update
+        for (OrderItem oi : ois) {
+
+            if (oi.getProduct().getId().intValue() == p.getId().intValue()){
+
+                oi.setNumber(oi.getNumber() + num);
+                orderItemService.update(oi);
+                oiid = oi.getId();
+                found = true;
+                break;
+            }
+        }
+
+        // 如果没找到用户的订单项，就创建新的订单项，add
+        if (!found){
+
+            OrderItem oi = new OrderItem();
+            oi.setNumber(num);
+            oi.setPid(pid);
+            oi.setUid(user.getId());
+            ois.add(oi);
+            oiid = oi.getId();
+        }
+
+//        m.addAttribute("ois", ois);
+
+        return "redirect:forebuy?oiid=" + oiid;
+    }
+
+    // 结算，不论是立即购买，还是购物车结算
+    @RequestMapping("/forebuy")
+    public String buy(HttpSession session, String[] oiid, Model m){
+
+        List<OrderItem> ois = new ArrayList<>();
+        float total = 0;
+
+        for (String s : oiid) {
+
+//            System.out.println(s);
+            // "1"  -->  1
+            int id = Integer.parseInt(s);
+            // 根据oiid获取订单项
+            OrderItem oi = orderItemService.get(id);
+            // 订单项总价钱
+            total += oi.getProduct().getPromotePrice() * oi.getNumber();
+            ois.add(oi);
+        }
+
+        m.addAttribute("total", total);
         m.addAttribute("ois", ois);
+        session.setAttribute("ois", ois);
 
         return "fore/buyNow";
+    }
+
+    @RequestMapping("/foreaddToCart")
+    @ResponseBody
+    public String addToCart(int pid, int num, HttpSession session){
+
+        Product product = productService.get(pid);
+        User user = (User) session.getAttribute("user");
+
+        boolean found = false;
+        List<OrderItem> ois = orderItemService.listByUser(user.getId());
+        for (OrderItem oi : ois) {
+            if (oi.getProduct().getId().intValue() == product.getId().intValue()) {
+
+                oi.setNumber(oi.getNumber() + num);
+                orderItemService.update(oi);
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+
+            OrderItem oi = new OrderItem();
+            oi.setUid(user.getId());
+            oi.setPid(pid);
+            oi.setNumber(num);
+            orderItemService.add(oi);
+        }
+
+        return "success";
     }
 
 }

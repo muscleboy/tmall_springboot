@@ -130,7 +130,7 @@
                 </tr>
                 <tr th:each="oi : ${ois}">
                     <td>
-                        <input type="checkbox" class="cartTableItemCheckbox" th:pid="${oi.product.id}">
+                        <input type="checkbox" class="cartTableItemCheckbox" th:oiid="${oi.id}" th:pid="${oi.product.id}">
                         <img th:src="'images/productSingle/'+${oi.product.productImage.id}+'.jpg'" width="100" height="100">
                     </td>
                     <td th:text="${oi.product.name}" th:href="'foreproduct?pid='+${oi.product.id}"></td>

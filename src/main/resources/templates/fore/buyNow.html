@@ -5,6 +5,80 @@
 <head th:include="admin/resources.html :: resources">
     <title>首页</title>
 </head>
+
+<script type="text/javascript">
+    
+    function checkAddr(){
+        
+        if ($("#address").val().length >= 10){
+            return true;
+        } else {
+            
+            $("#address").focus();
+            return false;
+        }
+    }
+    
+    function checkName(){
+        
+        if ($("#receiver").val().length >= 2){
+            return true;
+        } else {
+            
+            $("#receiver").focus();
+            return false;
+        }
+    }
+    
+    function checkPhone(){
+        
+        var phone = $("#mobile").val();
+        // 定义电话号码正则
+        var reg_phone = /^1[3456789]\d{9}$/;
+        if (reg_phone.test(phone)) {
+            
+            return true;
+        }else {
+            
+            return false;
+        }
+    }
+    
+    $("#create").css({
+        "background":"#c40000"
+    });
+    $("#createText").css({
+        "color":"#c40000"
+    });
+    
+    $(function () {
+        
+        // 计算实付款金额
+        var truePay = 0;
+        $(".orderItemMoney").each(function () {
+            
+            var oiid = $(this).attr("oiid");
+            var price = $(".orderItemMoney[oiid=" + oiid + "]").text();
+            price = price.replace(/,/g, "");
+            price = price.replace(/￥/g, "");
+            truePay += new Number(price);
+        });
+        $(".truePay").text(truePay);
+        
+        $("#mobile").blur(function () {
+            
+            if (checkAddr() && checkName() && checkPhone()){
+                
+                $("button.submitOrder").attr("disabled", false);
+                $("button.submitOrder").css({
+                    "background":"#c40000"
+                });
+            }
+        });
+    });
+
+</script>
+
 <body>
 
 <div class="m-container">
@@ -49,7 +123,8 @@
                         </td>
                         <td th:text="${oi.product.promotePrice}"></td>
                         <td th:text="${oi.number}"></td>
-                        <td class="orderItemMoney" th:oiid="${oi.id}">
+                        <td class="orderItemMoney" th:text="${oi.product.promotePrice * oi.number}"
+                            th:oiid="${oi.id}">
                         </td>
                         </tr>
                 </table>

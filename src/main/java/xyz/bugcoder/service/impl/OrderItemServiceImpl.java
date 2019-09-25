@@ -50,7 +50,9 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Override
     public OrderItem get(int id) {
 
-        return orderItemMapper.selectByPrimaryKey(id);
+        OrderItem oi = orderItemMapper.selectByPrimaryKey(id);
+        setProduct(oi);
+        return oi;
     }
 
     @Override
@@ -66,6 +68,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     public List<OrderItem> listByUser(int uid) {
 
         OrderItemExample example = new OrderItemExample();
+        // oid为空表示 还没生成订单
         example.createCriteria()
                 .andUidEqualTo(uid)
                 .andOidIsNull();

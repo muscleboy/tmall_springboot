@@ -60,6 +60,59 @@
             $(".productDetailImgDiv").show();
             $(".productReviewDiv").hide();
         });
+
+        // 点击链接才行，点击按钮的话，会一闪而过
+        $("#buyNowLink").click(function () {
+
+            var url = "checkLoginAjax";
+            $.get(url, new Date(), function (data) {
+
+                if (data == "success"){
+
+                    var amount = $("#amount").val();
+                    location.href = $("#buyNowLink").attr("href") + "&num=" + amount;
+                }
+                // else {
+                //
+                //     $("#loginModal").modal('show');
+                // }
+            });
+
+            return false;
+        });
+
+
+        $("#addToCartLink").click(function () {
+
+            var url = "checkLoginAjax";
+            $.get(url, new Date(), function (data) {
+
+                if (data == "success"){
+
+                    var page = "foreaddToCart";
+                    var num = $("input#amount").val();
+                    // 获取自定义属性的值
+                    var pid = $(".addToCartBtn").attr("pid");
+
+                    $.get(page, {"num":num, "pid":pid}, function (data) {
+
+                        if (data == "success") {
+
+                            $(".addToCartBtn").css("background", "gray");
+                            $(".addToCartBtn").attr("disabled", "disabled");
+                            $(".addToCartBtn").html("已加入购物车");
+                        }
+                    })
+                }
+                // else {
+				//
+                //     return false;
+                //     $("#loginModal").modal('show');
+                // }
+            });
+
+            return false;
+        });
     });
 
 </script>
