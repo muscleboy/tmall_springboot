@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:c="http://www.w3.org/1999/XSL/Transform">
+<!--include admin/user.html文件下的 fragment(resources)片段-->
+<head th:replace="admin/resources.html :: resources">
+	<title>首页</title>
+</head>
+<body>
+
+<div class="m-container">
+	<div th:replace="fore/home.html :: navbar"></div>
+	<div th:replace="fore/home.html :: logoAndSearch"></div>
+	<div class="payDiv">
+		<!--没错。。。-->
+		扫一扫付款，总共￥ <span class="payMoney" th:text="${param.total}"></span>
+		<div class="pay2weiImg">
+			<img src="images/site/alipay2wei.png" >
+		</div>
+		<div class="confirmPay">
+			<br>
+			<!--我也是醉了，从url中获取oid会出错。。。暂且放session里吧-->
+			<a th:href="@{'forepayed?oid='+${session.oid}+'&total='+${session.total}}">
+				<button class="confirmPayBtn">确认支付</button>
+			</a>
+		</div>
+	</div>
+	<div class="footer" th:replace="fore/home.html :: footer"></div>
+</div>
+
+</body>
+</html>

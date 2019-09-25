@@ -24,4 +24,10 @@ public class ForePageController {
         return "fore/login";
     }
 
+    @RequestMapping("/pay")
+    public String to_pay(){
+
+        return "fore/pay";
+    }
+
 }

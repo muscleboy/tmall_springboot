@@ -574,6 +574,21 @@ button.createOrderBtn{
     line-height: 40px;
 }
 
+/*支付页面*/
+div.payDiv{
+
+    text-align: center;
+    margin-top: 150px;
+    margin-bottom: 50px;
+}
+
+span.payMoney{
+
+    color: #FF6600;
+    font-size: 20px;
+    font-weight: bold;
+}
+
 button.confirmPayBtn{
 
     width: 150px;

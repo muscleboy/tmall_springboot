@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.bugcoder.bean.Order;
 import xyz.bugcoder.bean.OrderExample;
+import xyz.bugcoder.bean.OrderItem;
 import xyz.bugcoder.bean.User;
 import xyz.bugcoder.mapper.OrderMapper;
 import xyz.bugcoder.service.OrderItemService;
@@ -78,7 +79,23 @@ public class OrderServiceImpl implements OrderService {
         return os;
     }
 
+    @Override
+    public float getOrderTotal(Order o, List<OrderItem> ois) {
 
+        // 订单写入数据库
+        add(o);
+        float total = 0;
+        for (OrderItem oi : ois) {
+
+            oi.setOid(o.getId());
+            orderItemService.update(oi);
+            total += oi.getProduct().getPromotePrice() * oi.getNumber();
+        }
+
+        return total;
+    }
+
+    // 哪个用户的订单
     public void setUser(Order o){
 
         User u = userService.get(o.getUid());

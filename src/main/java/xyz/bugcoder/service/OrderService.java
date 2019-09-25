@@ -1,6 +1,7 @@
 package xyz.bugcoder.service;
 
 import xyz.bugcoder.bean.Order;
+import xyz.bugcoder.bean.OrderItem;
 
 import java.util.List;
 
@@ -20,10 +21,8 @@ public interface OrderService {
     Order get(int id);
     List<Order> list();
     List<Order> listByUid(int uid);
-//    List<Order> listByUidAndStatus(int uid, String excludeStatus);
-//     设置订单项
-//    void fill(Order o);
-//    void fill(List<Order> o);
+    // 计算订单的总价钱
+    float getOrderTotal(Order o, List<OrderItem> ois);
 
     String waitPay = "waitPay";
     String waitDelivery = "waitDelivery";

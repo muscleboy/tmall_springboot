@@ -11,8 +11,11 @@ import xyz.bugcoder.bean.*;
 import xyz.bugcoder.service.*;
 
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Create with IDEA.
@@ -207,7 +210,7 @@ public class ForeController {
             oi.setNumber(num);
             oi.setPid(pid);
             oi.setUid(user.getId());
-            ois.add(oi);
+            orderItemService.add(oi);
             oiid = oi.getId();
         }
 
@@ -242,6 +245,7 @@ public class ForeController {
         return "fore/buyNow";
     }
 
+    // 加入购物车
     @RequestMapping("/foreaddToCart")
     @ResponseBody
     public String addToCart(int pid, int num, HttpSession session){
@@ -271,6 +275,32 @@ public class ForeController {
         }
 
         return "success";
+    }
+
+    // 结算页面提交订单，创建订单
+    @RequestMapping("/forecreateOrder")
+    public String createOrder(HttpSession session, Order o, Model m){
+
+        User u = (User) session.getAttribute("user");
+        // 订单号: 当前时间戳 + 4位随机数
+        String orderCode = new SimpleDateFormat("yyyyMMddhhssmm")
+                .format(new Date()) + new Random().nextInt(10000);
+        // 订单创建时间
+        o.setCreateDate(new Date());
+        o.setOrderCode(orderCode);
+        o.setUid(u.getId());
+        // 订单状态为 待支付
+        o.setStatus(OrderService.waitPay);
+
+        List<OrderItem> ois = (List<OrderItem>) session.getAttribute("ois");
+        float total = orderService.getOrderTotal(o, ois);
+//        System.out.println(total);
+
+        session.setAttribute("oid", o.getId());
+        session.setAttribute("total", total);
+
+        // 重定向到支付页面，ForePageController负责转发到 pay(支付页面)
+        return "redirect:pay?oid=" + o.getId() + "&total=" + total;
     }
 
 }
