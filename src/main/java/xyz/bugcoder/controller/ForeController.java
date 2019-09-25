@@ -303,4 +303,20 @@ public class ForeController {
         return "redirect:pay?oid=" + o.getId() + "&total=" + total;
     }
 
+    // 确认支付
+    @RequestMapping("/forepayed")
+    public String payed(int oid, Model m){
+
+        Order o = orderService.get(oid);
+        // 订单支付时间
+        o.setPayDate(new Date());
+        // 订单状态为 待发货
+        o.setStatus(OrderService.waitDelivery);
+        // 更新订单
+        orderService.update(o);
+        m.addAttribute("o", o);
+
+        return "fore/payed";
+    }
+
 }

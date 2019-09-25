@@ -598,3 +598,23 @@ button.confirmPayBtn{
     color: white;
     line-height: 40px;
 }
+
+/*支付成功*/
+div.payedDiv{
+
+    margin: 200px auto;
+    width: 900px;
+}
+
+span.safeTipsText{
+
+    color: #C40000;
+    font-weight: bold;
+}
+
+span.truePayed{
+
+    color: #C40000;
+    font-weight: bold;
+    font-size: 15px;
+}

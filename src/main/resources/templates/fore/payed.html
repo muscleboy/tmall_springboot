@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:c="http://www.w3.org/1999/XSL/Transform">
+<!--include admin/user.html文件下的 fragment(resources)片段-->
+<head th:replace="admin/resources.html :: resources">
+	<title>首页</title>
+</head>
+<body>
+
+<div class="m-container">
+	<div th:replace="fore/home.html :: navbar"></div>
+	<div th:replace="fore/home.html :: logoAndSearch"></div>
+	<div class="payedDiv">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h3 class="panel-title">您已成功付款</h3>
+			</div>
+			<div class="panel-body">
+				<div class="orderInfoDiv">
+					<ul>
+						<li>
+							收货信息：
+							<span th:text="${o.address}"></span>
+							<span th:text="${o.receiver}"></span>
+							<span th:text="${o.mobile}"></span>
+							<span th:text="${o.post}"></span>
+						</li>
+						<li>
+							实付款：
+							<span class="truePayed" th:text="'￥'+${param.total}"></span>
+						</li>
+						<li>
+							预计送达：9月28日
+						</li>
+					</ul>
+				</div>
+				<div class="payedCheckLink">
+					您可以
+					<a href="order">查看已买到的宝贝</a>
+					<a href="order">查看交易详情</a>
+				</div>
+				<div class="safeTipsDiv">
+					<b>下单后，</b> <span class="safeTipsText">用QQ给您发送链接办理退款的都是骗子！</span>，系统不存在升级，订单异常问题，谨防假冒客服电话诈骗！
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="footer" th:replace="fore/home.html :: footer"></div>
+</div>
+</body>
+</html>
