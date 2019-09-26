@@ -5,10 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import xyz.bugcoder.bean.Admin;
 import xyz.bugcoder.bean.Category;
 import xyz.bugcoder.service.AdminService;
 import xyz.bugcoder.service.CategoryService;
 
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
@@ -38,17 +40,15 @@ public class AdminController {
     @RequestMapping("/admin_login")
     public String login(@RequestParam(value = "adminUser")String adminUser,
                         @RequestParam(value = "adminPass")String adminPass,
-                        Model m
+                        Model m, HttpSession session
                         ){
         Map<String, String> map = adminService.list2Map();
 
-        Category c = new Category();
-        c.setName("爱上杜甫");
-        categoryService.add(c);
-        System.out.println(c);
+        Admin admin = adminService.get(adminUser);
         // 登录成功
         if (map.get(adminUser) != null && map.get(adminUser).equals(adminPass)){
 
+            session.setAttribute("admin", admin);
             return "redirect:/admin_category_list";
             // 登录失败
         }else {

@@ -3,7 +3,10 @@ package xyz.bugcoder.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import xyz.bugcoder.bean.Admin;
 import xyz.bugcoder.service.ProductService;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * @Package: xyz.bugcoder.controller
@@ -18,62 +21,102 @@ public class AdminPageController {
     ProductService productService;
 
     @RequestMapping("/admin_category_list")
-    public String listCategory(){
+    public String listCategory(HttpSession session){
 
+        Admin admin = (Admin) session.getAttribute("admin");
+        if (admin == null){
+
+            return "redirect:/admin";
+        }
         return "admin/listCategory";
     }
 
     @RequestMapping("/admin_property_list")
-    public String listProperty(){
+    public String listProperty(HttpSession session){
 
+        Admin admin = (Admin) session.getAttribute("admin");
+        if (admin == null){
+
+            return "redirect:/admin";
+        }
         return "admin/listProperty";
     }
 
     @RequestMapping("/admin_user_list")
-    public String user(){
+    public String user(HttpSession session){
 
+        Admin admin = (Admin) session.getAttribute("admin");
+        if (admin == null){
+
+            return "redirect:/admin";
+        }
         return "admin/listUser";
     }
 
     @RequestMapping("/admin_order_list")
-    public String order(){
+    public String order(HttpSession session){
 
+        Admin admin = (Admin) session.getAttribute("admin");
+        if (admin == null){
+
+            return "redirect:/admin";
+        }
         return "admin/listOrder";
     }
 
     @RequestMapping("/admin_category_edit")
-    public String editCategory(){
+    public String editCategory(HttpSession session){
 
+        Admin admin = (Admin) session.getAttribute("admin");
+        if (admin == null){
+
+            return "redirect:/admin";
+        }
         return "admin/editCategory";
     }
 
     @RequestMapping("/admin_product_list")
-    public String listProduct(){
+    public String listProduct(HttpSession session){
 
-//        PageHelper.startPage(0, 5,"id desc");
-//        List<Product> ps = productService.list(cid);
-//        PageInfo<Product> page = new PageInfo<>(ps, 3);
-//        m.addAttribute("ps", ps);
-//        m.addAttribute("page", page);
+        Admin admin = (Admin) session.getAttribute("admin");
+        if (admin == null){
+
+            return "redirect:/admin";
+        }
 
         return "admin/listProduct";
     }
 
     @RequestMapping("/admin_product_edit")
-    public String editProduct(){
+    public String editProduct(HttpSession session){
 
+        Admin admin = (Admin) session.getAttribute("admin");
+        if (admin == null){
+
+            return "redirect:/admin";
+        }
         return "admin/editProduct";
     }
 
     @RequestMapping("/admin_productImage_list")
-    public String listProductImage(){
+    public String listProductImage(HttpSession session){
 
+        Admin admin = (Admin) session.getAttribute("admin");
+        if (admin == null){
+
+            return "redirect:/admin";
+        }
         return "admin/listProductImage";
     }
 
     @RequestMapping("/admin_propertyValue_edit")
-    public String listPropertyValue(){
+    public String listPropertyValue(HttpSession session){
 
+        Admin admin = (Admin) session.getAttribute("admin");
+        if (admin == null){
+
+            return "redirect:/admin";
+        }
         return "admin/editPropertyValue";
     }
 

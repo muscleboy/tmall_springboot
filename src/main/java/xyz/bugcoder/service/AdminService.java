@@ -15,6 +15,7 @@ import java.util.Map;
  */
 public interface AdminService {
 
+    Admin get(String username);
     List<Admin> list();
     Map<String, String> list2Map();
 

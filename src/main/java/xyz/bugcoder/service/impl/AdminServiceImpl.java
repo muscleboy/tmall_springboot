@@ -26,6 +26,15 @@ public class AdminServiceImpl implements AdminService {
     AdminMapper adminMapper;
 
     @Override
+    public Admin get(String username) {
+
+        AdminExample example = new AdminExample();
+        example.createCriteria()
+                .andUsernameEqualTo(username);
+        return adminMapper.selectByExample(example).get(0);
+    }
+
+    @Override
     public List<Admin> list() {
 
         AdminExample example = new AdminExample();
